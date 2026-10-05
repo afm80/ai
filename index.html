@@ -1,0 +1,2553 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>مواقع الذكاء الاصطناعي</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+--bg-primary:#0a0a0a;--bg-secondary:#111;--bg-card:#1a1a1a;--bg-hover:#222;
+--text-primary:#fff;--text-secondary:#a0a0a0;--border-color:#333;--accent:#6366f1;
+--accent-hover:#4f46e5;--shadow:0 4px 20px rgba(0,0,0,.4);--gradient:linear-gradient(135deg,#6366f1,#8b5cf6);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Cairo',sans-serif;background:var(--bg-primary);color:var(--text-primary);
+min-height:100vh;padding:20px 20px 0;line-height:1.6;transition:background .3s,color .3s;
+display:flex;flex-direction:column}
+.container{max-width:1200px;margin:0 auto;flex:1}
+.header{text-align:center;padding:40px 20px}
+.header h1{font-size:36px;font-weight:700;margin-bottom:12px;background:var(--gradient);
+-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.header p{color:var(--text-secondary);font-size:16px;max-width:600px;margin:0 auto}
+.search-box{max-width:500px;margin:0 auto 40px;position:relative}
+.search-box input{width:100%;padding:16px 20px;border-radius:16px;border:2px solid var(--border-color);
+background:var(--bg-card);color:var(--text-primary);font-size:15px;font-family:inherit;
+transition:all .3s}
+.search-box input:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 4px rgba(99,102,241,.1)}
+.search-box input::placeholder{color:var(--text-secondary)}
+.categories{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:20px 0 30px}
+.category-btn{background:var(--bg-card);color:var(--text-secondary);border:1px solid var(--border-color);
+padding:10px 20px;border-radius:10px;cursor:pointer;font-size:14px;font-family:inherit;
+font-weight:500;transition:all .2s}
+.category-btn:hover{background:var(--bg-hover);color:var(--text-primary);border-color:var(--accent)}
+.category-btn.active{background:var(--accent);color:#fff;border-color:var(--accent)}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;padding:0 10px}
+@media(max-width:1024px){.grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:640px){.grid{grid-template-columns:1fr}}
+.card{background:var(--bg-card);border:1px solid var(--border-color);border-radius:14px;
+padding:20px;transition:all .3s;cursor:pointer;text-decoration:none;display:block;
+color:inherit;position:relative;overflow:hidden;display:flex;flex-direction:column;gap:14px}
+.card:hover{transform:translateY(-4px);border-color:var(--accent);box-shadow:var(--shadow)}
+.card-icon{width:56px;height:56px;border-radius:14px;display:flex;align-items:center;
+justify-content:center;flex-shrink:0;background:var(--bg-hover);padding:10px;margin:0 auto}
+.card-icon img{width:100%;height:100%;object-fit:contain}
+.card-info{text-align:center}
+.card-info h3{font-size:16px;font-weight:700;margin-bottom:4px;color:var(--text-primary)}
+.card-info .url{font-size:11px;color:var(--text-secondary);opacity:.7;font-family:monospace;
+word-break:break-all}
+.card-desc{color:var(--text-secondary);font-size:13px;line-height:1.5;
+text-align:center;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.card-tags{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin-top:auto}
+.tag{background:var(--bg-hover);color:var(--text-secondary);padding:4px 10px;
+border-radius:8px;font-size:11px;font-weight:500;border:1px solid var(--border-color);
+transition:all .2s;white-space:nowrap}
+.tag:hover{background:var(--accent);color:#fff;border-color:var(--accent)}
+.empty{text-align:center;padding:80px 20px;color:var(--text-secondary);font-size:17px}
+.hidden{display:none}
+.footer{margin-top:auto;padding:25px 20px;text-align:center;border-top:1px solid var(--border-color);
+background:var(--bg-secondary)}
+.footer-content{color:var(--text-secondary);font-size:15px}
+.footer-content a{color:var(--accent);text-decoration:none;font-weight:700;
+transition:all .2s}
+.footer-content a:hover{text-decoration:underline}
+@media(max-width:600px){
+.header h1{font-size:26px}.grid{grid-template-columns:1fr}.card{padding:16px}
+.card-icon{width:44px;height:44px}.card-info h3{font-size:15px}
+}
+</style>
+</head>
+<body>
+<div class="container">
+<div class="header">
+<h1>🤖 مواقع الذكاء الاصطناعي</h1>
+<p>منصات الدردشة، توليد الصور، وتوليد الفيديو في مكان واحد</p>
+</div>
+
+<div class="categories">
+<button class="category-btn active" onclick="filterByCategory('all')">الكل</button>
+<button class="category-btn" onclick="filterByCategory('chat')">دردشة AI</button>
+<button class="category-btn" onclick="filterByCategory('image')">توليد صور</button>
+<button class="category-btn" onclick="filterByCategory('video')">توليد فيديو</button>
+<button class="category-btn" onclick="filterByCategory('audio')">صوت وموسيقى</button>
+<button class="category-btn" onclick="filterByCategory('code')">برمجة</button>
+<button class="category-btn" onclick="filterByCategory('data')">بيانات</button>
+<button class="category-btn" onclick="filterByCategory('writing')">كتابة</button>
+<button class="category-btn" onclick="filterByCategory('tools')">أدوات</button>
+</div>
+
+<div class="search-box">
+<input type="text" id="searchInput" placeholder="ابحث عن منصة..." oninput="filterCards()">
+</div>
+
+<div class="grid" id="cardsGrid"></div>
+</div>
+
+<footer class="footer">
+<div class="footer-content">
+هذا الموقع برعاية <a href="https://afm80.github.io/net/" target="_blank">الفحام نت</a>
+</div>
+</footer>
+
+<script>
+const platforms = [
+{
+name: 'ChatGPT',
+url: 'https://chat.openai.com',
+icon: 'https://upload.wikimedia.org/wikipedia/commons/f/f8/OpenAI_logo_2025_(symbol).svg',
+desc: 'أشهر منصة ذكاء اصطناعي من OpenAI. تقدم محادثات ذكية، كتابة، برمجة، تحليل، وأكثر.',
+tags: ['مجاني', 'مدفوع', 'توليد نصوص', 'برمجة'],
+category: 'chat',
+popular: true,
+free: true
+},
+{
+name: 'Claude',
+url: 'https://claude.ai',
+icon: 'https://upload.wikimedia.org/wikipedia/commons/f/f5/Claude_AI_logo.svg',
+desc: 'من Anthropic مع قدرات برمجة وتحليل متقدمة. مشهور بأمانه ومصداقيته العالية.',
+tags: ['مجاني', 'مدفوع', 'برمجة', 'تحليل'],
+badge: 'new'
+},
+{
+name: 'Gemini',
+url: 'https://gemini.google.com',
+icon: 'https://upload.wikimedia.org/wikipedia/commons/2/2f/Google_Gemini_icon_2025.svg',
+desc: 'منصة Google الذكية مع تكامل ممتاز مع خدمات Google. توليد صور ونصوص.',
+tags: ['مجاني', 'مدفوع', 'توليد صور', 'تكامل Google'],
+badge: 'popular'
+},
+{
+name: 'Grok',
+url: 'https://grok.x.ai',
+icon: 'https://upload.wikimedia.org/wikipedia/commons/9/9e/X_logo.svg',
+desc: 'منصة X (تويتر سابقاً) مع وصول مباشر للبيانات الحالية. سريع ومباشر.',
+tags: ['مدفوع', 'بيانات حية', 'سريع'],
+badge: 'new'
+},
+{
+name: 'Perplexity',
+url: 'https://perplexity.ai',
+icon: 'https://upload.wikimedia.org/wikipedia/commons/6/6b/Perplexity_AI_logo.svg',
+desc: 'محرك بحث ذكي يقدم إجابات دقيقة مع مصادر. مثالي للبحث العميق.',
+tags: ['مجاني', 'مدفوع', 'بحث', 'مصادر'],
+badge: 'popular'
+},
+{
+name: 'Hugging Chat',
+url: 'https://huggingface.co/chat',
+icon: 'https://upload.wikimedia.org/wikipedia/commons/d/d0/Hf-logo-with-title.svg',
+desc: 'منصة مجانية من Hugging Face تدعم مئات النماذج المفتوحة المصدر.',
+tags: ['مجاني', 'مفتوح المصدر', 'نماذج متعددة'],
+badge: 'free'
+},
+{
+name: 'Microsoft Copilot',
+url: 'https://copilot.microsoft.com',
+icon: 'https://upload.wikimedia.org/wikipedia/commons/1/13/Microsoft_365_Copilot_Icon.svg',
+desc: 'مساعد ذكي من Microsoft متكامل مع Windows و Edge و Office.',
+tags: ['مجاني', 'مدفوع', 'تكامل Microsoft'],
+badge: 'popular'
+},
+{
+name: 'Poe',
+url: 'https://poe.com',
+icon: 'https://cdn.simpleicons.org/poe',
+desc: 'منصة تجمع عدة نماذج ذكاء اصطناعي في مكان واحد. سهلة الاستخدام.',
+tags: ['مجاني', 'مدفوع', 'نماذج متعددة'],
+badge: 'popular'
+},
+{
+name: 'Character.AI',
+url: 'https://character.ai',
+icon: 'https://upload.wikimedia.org/wikipedia/commons/4/4e/Character.AI.svg',
+desc: 'تحدّث مع شخصيات خيالية وحقيقية. ممتاز للمحادثات الترفيهية والتعليمية.',
+tags: ['مجاني', 'مدفوع', 'شخصيات', 'ترفيه'],
+badge: 'popular'
+},
+{
+name: 'DeepSeek',
+url: 'https://chat.deepseek.com',
+icon: 'https://cdn.simpleicons.org/deepseek',
+desc: 'منصة صينية قوية مع نماذج متقدمة للبرمجة والتحليل.',
+tags: ['مجاني', 'مدفوع', 'برمجة', 'تحليل'],
+badge: 'new'
+},
+{
+name: 'Groq',
+url: 'https://groq.com',
+icon: 'https://upload.wikimedia.org/wikipedia/commons/e/e6/Groq_logo.svg',
+desc: 'أسرع منصة ذكاء اصطناعي مع استجابة فورية تقريباً.',
+tags: ['مجاني', 'سريع جداً', 'برمجة'],
+badge: 'new'
+},
+{
+name: 'You.com',
+url: 'https://you.com',
+icon: 'https://cdn.simpleicons.org/you',
+desc: 'محرك بحث ذكي يركز على الخصوصية مع إجابات مباشرة.',
+tags: ['مجاني', 'مدفوع', 'خصوصية', 'بحث'],
+badge: 'free'
+},
+{
+name: 'Pi',
+url: 'https://pi.ai',
+icon: 'https://cdn.simpleicons.org/inflectionai',
+desc: 'مساعد ذكي من Inflection AI مخصص للمحادثات وداعم جداً.',
+tags: ['مجاني', 'مدفوع', 'دعم', 'محادثات'],
+badge: 'new'
+},
+{
+name: 'Brave Leo',
+url: 'https://brave.com/leo',
+icon: 'https://upload.wikimedia.org/wikipedia/commons/6/6e/Brave_web_browser_logo.svg',
+desc: 'مساعد ذكي مدمج في متصفح Brave يركز على الخصوصية.',
+tags: ['مجاني', 'خصوصية', 'متصفح'],
+badge: 'free'
+},
+{
+name: 'Phind',
+url: 'https://phind.com',
+icon: 'https://upload.wikimedia.org/wikipedia/commons/5/59/Phind_logo.svg',
+desc: 'محرك بحث للمبرمجين مع إجابات دقيقة وكود جاهز.',
+tags: ['مجاني', 'برمجة', 'بحث', 'كود'],
+badge: 'free'
+},
+{
+name: 'Lepton AI',
+url: 'https://lepton.ai',
+icon: 'https://cdn.simpleicons.org/leptonai',
+desc: 'منصة للنماذج المفتوحة المصدر مع خوادم سريعة.',
+tags: ['مجاني', 'مدفوع', 'مفتوح المصدر'],
+badge: 'new'
+},
+{
+name: 'Together AI',
+url: 'https://together.ai',
+icon: 'https://cdn.simpleicons.org/togetherai',
+desc: 'منصة تدعم نماذج مفتوحة المصدر بمستوى احترافي.',
+tags: ['مدفوع', 'مفتوح المصدر', 'احترافي'],
+badge: 'new'
+},
+{
+name: 'Mistral AI',
+url: 'https://chat.mistral.ai',
+icon: 'https://cdn.simpleicons.org/mistralai',
+desc: 'منصة أوروبية بنماذج قوية ومفتوحة المصدر.',
+tags: ['مجاني', 'مدفوع', 'مفتوح المصدر', 'أوروبي'],
+badge: 'new'
+},
+{
+name: 'Cohere',
+url: 'https://cohere.com',
+icon: 'https://upload.wikimedia.org/wikipedia/commons/5/5f/Cohere_logo.svg',
+desc: 'متخصصة في الشركات مع نماذج لغة قوية للإنتاج.',
+tags: ['مدفوع', 'شركات', 'لغة'],
+badge: 'new'
+},
+{
+name: 'OpenRouter',
+url: 'https://openrouter.ai',
+icon: 'https://cdn.simpleicons.org/openrouter',
+desc: 'بوابة لجميع نماذج الذكاء الاصطناعي بسعر تنافسي.',
+tags: ['مدفوع', 'نماذج متعددة', 'تنافسي'],
+badge: 'new'
+},
+{
+name: 'Midjourney',
+url: 'https://midjourney.com',
+icon: 'https://upload.wikimedia.org/wikipedia/commons/2/26/Midjourney_Emblem_(in-colour).svg',
+desc: 'أشهر منصة لتوليد الصور بجودة عالية. تنتج صوراً فنية وإبداعية مذهلة.',
+tags: ['مدفوع', 'صور', 'فن', 'إبداع'],
+badge: 'popular'
+},
+{
+name: 'DALL-E 3',
+url: 'https://openai.com/dall-e-3',
+icon: 'https://upload.wikimedia.org/wikipedia/commons/f/f8/OpenAI_logo_2025_(symbol).svg',
+desc: 'من OpenAI لتوليد صور واقعية ودقيقة. متكامل مع ChatGPT.',
+tags: ['مدفوع', 'صور', 'واقعية', 'OpenAI'],
+badge: 'popular'
+},
+{
+name: 'Stable Diffusion',
+url: 'https://stability.ai',
+icon: 'https://cdn.simpleicons.org/stablediffusion',
+desc: 'نموذج مفتوح المصدر لتوليد الصور. مجاني وقوي للإنتاج.',
+tags: ['مجاني', 'مدفوع', 'صور', 'مفتوح المصدر'],
+badge: 'free'
+},
+{
+name: 'Leonardo AI',
+url: 'https://leonardo.ai',
+icon: 'https://cdn.simpleicons.org/leonardoai',
+desc: 'منصة احترافية لتوليد الصور وألعاب الفيديو. جودة عالية وسهلة الاستخدام.',
+tags: ['مجاني', 'مدفوع', 'صور', 'ألعاب'],
+badge: 'new'
+},
+{
+name: 'Runway ML',
+url: 'https://runwayml.com',
+icon: 'https://cdn.simpleicons.org/runwayml',
+desc: 'منصة متقدمة لتوليد وتحرير الفيديو بالذكاء الاصطناعي.',
+tags: ['مدفوع', 'فيديو', 'تحرير', 'احترافي'],
+badge: 'popular'
+},
+{
+name: 'Pika Labs',
+url: 'https://pika.art',
+icon: 'https://cdn.simpleicons.org/pika',
+desc: 'منصة لتوليد فيديو من النصوص والصور. سريعة وسهلة.',
+tags: ['مجاني', 'مدفوع', 'فيديو', 'سريع'],
+badge: 'new'
+},
+{
+name: 'Sora',
+url: 'https://openai.com/sora',
+icon: 'https://upload.wikimedia.org/wikipedia/commons/f/f8/OpenAI_logo_2025_(symbol).svg',
+desc: 'من OpenAI لتوليد فيديو واقعي من النصوص. أحدث تقنية في الفيديو.',
+tags: ['قريباً', 'فيديو', 'واقعي', 'OpenAI'],
+badge: 'new'
+},
+{
+name: 'HeyGen',
+url: 'https://heygen.com',
+icon: 'https://cdn.simpleicons.org/heygen',
+desc: 'أنشئ فيديوهات مع شخصيات افتراضية تتحدث بأي لغة.',
+tags: ['مدفوع', 'فيديو', 'شخصيات', 'تحدث'],
+badge: 'new'
+},
+{
+name: 'Synthesia',
+url: 'https://synthesia.io',
+icon: 'https://cdn.simpleicons.org/synthesia',
+desc: 'منصة احترافية لإنشاء فيديوهات تعليمية مع شخصيات افتراضية.',
+tags: ['مدفوع', 'فيديو', 'تعليم', 'احترافي'],
+badge: 'new'
+},
+{
+name: 'Kling AI',
+url: 'https://klingai.com',
+icon: 'https://cdn.simpleicons.org/klingai',
+desc: 'منصة صينية متقدمة لتوليد فيديو عالي الجودة.',
+tags: ['مجاني', 'مدفوع', 'فيديو', 'صيني'],
+badge: 'new'
+},
+{
+name: 'Canva AI',
+url: 'https://canva.com',
+icon: 'https://upload.wikimedia.org/wikipedia/commons/0/0c/Canva_logo.svg',
+desc: 'منصة تصميم مع أدوات ذكاء اصطناعي لتوليد الصور والمحتوى.',
+tags: ['مجاني', 'مدفوع', 'تصميم', 'صور'],
+badge: 'popular'
+},
+{
+name: 'Adobe Firefly',
+url: 'https://adobe.com/firefly',
+icon: 'https://cdn.simpleicons.org/adobe',
+desc: 'من Adobe لتوليد وتحرير الصور والفيديو. متكامل مع Creative Cloud.',
+tags: ['مدفوع', 'صور', 'فيديو', 'Adobe'],
+badge: 'popular'
+},
+{
+name: 'Ideogram',
+url: 'https://ideogram.ai',
+icon: 'https://cdn.simpleicons.org/ideogram',
+desc: 'منصة متخصصة في توليد صور مع نصوص دقيقة ومتقنة.',
+tags: ['مجاني', 'مدفوع', 'صور', 'نصوص'],
+badge: 'new'
+},
+{
+name: 'Playground AI',
+url: 'https://playground.com',
+icon: 'https://cdn.simpleicons.org/playgroundai',
+desc: 'منصة مجانية وسهلة لتوليد الصور مع نماذج متعددة.',
+tags: ['مجاني', 'صور', 'سهل', 'نماذج'],
+badge: 'free'
+},
+{
+name: 'Bing Image Creator',
+url: 'https://bing.com/create',
+icon: 'https://cdn.simpleicons.org/microsoftbing',
+desc: 'من Microsoft لتوليد صور مجانية باستخدام DALL-E.',
+tags: ['مجاني', 'صور', 'Microsoft', 'DALL-E'],
+badge: 'free'
+},
+{
+name: 'NightCafe',
+url: 'https://nightcafe.studio',
+icon: 'https://cdn.simpleicons.org/nightcafe',
+desc: 'مجتمع كبير لتوليد الصور الفنية ومشاركة الإبداعات.',
+tags: ['مجاني', 'مدفوع', 'صور', 'مجتمع'],
+badge: 'popular'
+},
+{
+name: 'Craiyon',
+url: 'https://craiyon.com',
+icon: 'https://cdn.simpleicons.org/craiyon',
+desc: 'منصة مجانية لتوليد الصور سابقاً باسم DALL-E Mini.',
+tags: ['مجاني', 'صور', 'بسيط'],
+badge: 'free'
+},
+{
+name: 'Deep Dream Generator',
+url: 'https://deepdreamgenerator.com',
+icon: 'https://upload.wikimedia.org/wikipedia/commons/4/4e/Deep_Dream_Generator_logo.svg',
+desc: 'منصة متقدمة لتوليد صور فنية ومعقدة.',
+tags: ['مجاني', 'مدفوع', 'صور', 'فن'],
+badge: 'new'
+},
+{
+name: 'BlueWillow',
+url: 'https://bluewillow.ai',
+icon: 'https://cdn.simpleicons.org/bluewillow',
+desc: 'بديل مجاني لـ Midjourney مع جودة ممتازة.',
+tags: ['مجاني', 'صور', 'Midjourney بديل'],
+badge: 'free'
+},
+{
+name: 'Lexica',
+url: 'https://lexica.art',
+icon: 'https://cdn.simpleicons.org/lexica',
+desc: 'محرك بحث لصور Stable Diffusion مع توليد مجاني.',
+tags: ['مجاني', 'صور', 'بحث', 'Stable Diffusion'],
+badge: 'free'
+},
+{
+name: 'SeaArt AI',
+url: 'https://seaart.ai',
+icon: 'https://cdn.simpleicons.org/seaart',
+desc: 'منصة صينية لتوليد صور عالية الجودة.',
+tags: ['مجاني', 'مدفوع', 'صور', 'صيني'],
+badge: 'new'
+},
+{
+name: 'Mage Space',
+url: 'https://magespace.com',
+icon: 'https://cdn.simpleicons.org/magespace',
+desc: 'منصة سريعة لتوليد الصور مع نماذج متعددة.',
+tags: ['مجاني', 'مدفوع', 'صور', 'سريع'],
+badge: 'new'
+},
+{
+name: 'Tensor.art',
+url: 'https://tensor.art',
+icon: 'https://cdn.simpleicons.org/tensorart',
+desc: 'منصة لتوليد الصور مع مكتبة كبيرة من النماذج.',
+tags: ['مجاني', 'مدفوع', 'صور', 'نماذج'],
+badge: 'new'
+},
+{
+name: 'Krea AI',
+url: 'https://krea.ai',
+icon: 'https://cdn.simpleicons.org/kreaai',
+desc: 'منصة متقدمة لتوليد الصور الواقعية.',
+tags: ['مجاني', 'مدفوع', 'صور', 'واقعية'],
+badge: 'new'
+},
+{
+name: 'Vizcom',
+url: 'https://vizcom.ai',
+icon: 'https://cdn.simpleicons.org/vizcom',
+desc: 'حول رسوماتك إلى واقع ثلاثي الأبعاد.',
+tags: ['مجاني', 'مدفوع', 'صور', '3D'],
+badge: 'new'
+},
+{
+name: 'Luma AI',
+url: 'https://luma.ai',
+icon: 'https://cdn.simpleicons.org/lumaai',
+desc: 'منصة متقدمة لتوليد فيديو 3D واقعي.',
+tags: ['مجاني', 'مدفوع', 'فيديو', '3D'],
+badge: 'new'
+},
+{
+name: 'Pika',
+url: 'https://pika.art',
+icon: 'https://cdn.simpleicons.org/pika',
+desc: 'توليد فيديو من النصوص والصور بسهولة.',
+tags: ['مجاني', 'مدفوع', 'فيديو', 'سهل'],
+badge: 'new'
+},
+{
+name: 'Haiper',
+url: 'https://haiper.ai',
+icon: 'https://cdn.simpleicons.org/haiper',
+desc: 'منصة جديدة لتوليد فيديو عالي الجودة.',
+tags: ['مجاني', 'فيديو', 'جديد'],
+badge: 'new'
+},
+{
+name: 'Luma Dream Machine',
+url: 'https://lumalabs.ai/dream-machine',
+icon: 'https://cdn.simpleicons.org/lumalabs',
+desc: 'منصة لتوليد فيديو من الصور والنصوص.',
+tags: ['مجاني', 'مدفوع', 'فيديو', 'حلم'],
+badge: 'new'
+},
+{
+name: 'Vidu',
+url: 'https://vidu.studio',
+icon: 'https://cdn.simpleicons.org/vidu',
+desc: 'منصة صينية لتوليد فيديو من النصوص.',
+tags: ['مجاني', 'مدفوع', 'فيديو', 'صيني'],
+badge: 'new'
+},
+{
+name: 'Genmo AI',
+url: 'https://genmo.ai',
+icon: 'https://cdn.simpleicons.org/genmo',
+desc: 'منصة لتوليد وتحرير الفيديو بالذكاء الاصطناعي.',
+tags: ['مجاني', 'مدفوع', 'فيديو', 'تحرير'],
+badge: 'new'
+},
+{
+name: 'D-ID',
+url: 'https://d-id.com',
+icon: 'https://cdn.simpleicons.org/did',
+desc: 'أنشئ فيديوهات مع صور تتحدث.',
+tags: ['مدفوع', 'فيديو', 'صور', 'تحدث'],
+badge: 'new'
+},
+{
+name: 'Elai.io',
+url: 'https://elai.io',
+icon: 'https://cdn.simpleicons.org/elai',
+desc: 'منصة لإنشاء فيديوهات تعليمية بسهولة.',
+tags: ['مدفوع', 'فيديو', 'تعليم'],
+badge: 'new'
+},
+{
+name: 'DeepBrain AI',
+url: 'https://deepbrain.io',
+icon: 'https://cdn.simpleicons.org/deepbrain',
+desc: 'فيديوهات مع شخصيات افتراضية واقعية.',
+tags: ['مدفوع', 'فيديو', 'شخصيات', 'واقعية'],
+badge: 'new'
+},
+{
+name: 'Tavus',
+url: 'https://tavus.io',
+icon: 'https://cdn.simpleicons.org/tavus',
+desc: 'فيديوهات مخصصة لكل مستخدم تلقائياً.',
+tags: ['مدفوع', 'فيديو', 'مخصص'],
+badge: 'new'
+},
+{
+name: 'Rephrase.ai',
+url: 'https://rephrase.ai',
+icon: 'https://upload.wikimedia.org/wikipedia/commons/4/4c/Rephrase_logo.svg',
+desc: 'فيديوهات مخصصة للمبيعات والتسويق.',
+tags: ['مدفوع', 'فيديو', 'مبيعات'],
+badge: 'new'
+},
+{
+name: 'Syllabus',
+url: 'https://syllabus.ai',
+icon: 'https://upload.wikimedia.org/wikipedia/commons/4/4c/Syllabus_logo.svg',
+desc: 'منصة لإنشاء فيديوهات تعليمية سريعة.',
+tags: ['مدفوع', 'فيديو', 'تعليم', 'سريع'],
+badge: 'new'
+},
+{
+name: 'Lovo.ai',
+url: 'https://lovo.ai',
+icon: 'https://upload.wikimedia.org/wikipedia/commons/4/4c/Lovo_logo.svg',
+desc: 'منصة لإنشاء أصوات افتراضية احترافية.',
+tags: ['مجاني', 'مدفوع', 'صوت', 'احترافي'],
+badge: 'new'
+},
+{
+name: 'ElevenLabs',
+url: 'https://elevenlabs.io',
+icon: 'https://cdn.simpleicons.org/elevenlabs',
+desc: 'أفضل منصة لتوليد أصوات واقعية بجودة عالية.',
+tags: ['مجاني', 'مدفوع', 'صوت', 'واقعية'],
+badge: 'popular'
+},
+{
+name: 'Murf.ai',
+url: 'https://murf.ai',
+icon: 'https://cdn.simpleicons.org/murf',
+desc: 'منصة احترافية لتوليد أصوات للفيديوهات.',
+tags: ['مدفوع', 'صوت', 'احترافي'],
+badge: 'new'
+},
+{
+name: 'Play.ht',
+url: 'https://play.ht',
+icon: 'https://cdn.simpleicons.org/playht',
+desc: 'توليد أصوات واقعية لأي نص.',
+tags: ['مجاني', 'مدفوع', 'صوت', 'واقعية'],
+badge: 'new'
+},
+{
+name: 'Speechify',
+url: 'https://speechify.com',
+icon: 'https://cdn.simpleicons.org/speechify',
+desc: 'تحويل النصوص إلى صوت طبيعي.',
+tags: ['مجاني', 'مدفوع', 'صوت', 'نص'],
+badge: 'popular'
+},
+{
+name: 'Amazon Polly',
+url: 'https://aws.amazon.com/polly',
+icon: 'https://upload.wikimedia.org/wikipedia/commons/9/93/Amazon_Web_Services_Logo.svg',
+desc: 'خدمة AWS لتوليد أصوات عالية الجودة.',
+tags: ['مدفوع', 'صوت', 'AWS'],
+badge: 'new'
+},
+{
+name: 'Google Cloud TTS',
+url: 'https://cloud.google.com/text-to-speech',
+icon: 'https://cdn.simpleicons.org/google',
+desc: 'خدمة Google لتوليد أصوات بعدة لغات.',
+tags: ['مدفوع', 'صوت', 'Google'],
+badge: 'new'
+},
+{
+name: 'Azure Speech',
+url: 'https://azure.microsoft.com/services/cognitive-services/text-to-speech',
+icon: 'https://upload.wikimedia.org/wikipedia/commons/0/0e/Microsoft_Copilot_logo.svg',
+desc: 'خدمة Microsoft لتوليد الأصوات.',
+tags: ['مدفوع', 'صوت', 'Microsoft'],
+badge: 'new'
+},
+{
+name: 'Soundraw',
+url: 'https://soundraw.io',
+icon: 'https://upload.wikimedia.org/wikipedia/commons/4/4c/Soundraw_logo.svg',
+desc: 'توليد موسيقى أصلية لمشاريعك.',
+tags: ['مجاني', 'مدفوع', 'موسيقى', 'أصلية'],
+badge: 'new'
+},
+{
+name: 'AIVA',
+url: 'https://aiva.ai',
+icon: 'https://upload.wikimedia.org/wikipedia/commons/4/4c/AIVA_logo.svg',
+desc: 'مساعد ذكاء اصطناعي للموسيقى التركيبية.',
+tags: ['مجاني', 'مدفوع', 'موسيقى', 'تركيبية'],
+badge: 'new'
+},
+{
+name: 'Amper Music',
+url: 'https://ampermusic.com',
+icon: 'https://upload.wikimedia.org/wikipedia/commons/4/4c/Amper_Music_logo.svg',
+desc: 'منصة لتوليد موسيقى للفيديوهات.',
+tags: ['مدفوع', 'موسيقى', 'فيديو'],
+badge: 'new'
+},
+{
+name: 'Suno AI',
+url: 'https://suno.ai',
+icon: 'https://upload.wikimedia.org/wikipedia/commons/4/4c/Suno_logo.svg',
+desc: 'توليد أغانٍ كاملة من النصوص.',
+tags: ['مجاني', 'مدفوع', 'موسيقى', 'أغانٍ'],
+badge: 'new'
+},
+{
+name: 'Udio',
+url: 'https://udio.com',
+icon: 'https://upload.wikimedia.org/wikipedia/commons/4/4c/Udio_logo.svg',
+desc: 'منصة جديدة لتوليد موسيقى وأغانٍ.',
+tags: ['مجاني', 'مدفوع', 'موسيقى', 'أغانٍ'],
+badge: 'new'
+},
+{
+name: 'Boomy',
+url: 'https://boomy.com',
+icon: 'https://upload.wikimedia.org/wikipedia/commons/4/4c/Boomy_logo.svg',
+desc: 'أنشئ موسيقى أصلية بثوانٍ.',
+tags: ['مجاني', 'مدفوع', 'موسيقى', 'سريع'],
+badge: 'new'
+},
+{
+name: 'Soundful',
+url: 'https://soundful.com',
+icon: 'https://upload.wikimedia.org/wikipedia/commons/4/4c/Soundful_logo.svg',
+desc: 'توليد موسيقى خالية من حقوق الملكية.',
+tags: ['مجاني', 'مدفوع', 'موسيقى', 'حقوق'],
+badge: 'new'
+},
+{
+name: 'Ecrett Music',
+url: 'https://ecrettmusic.com',
+icon: 'https://upload.wikimedia.org/wikipedia/commons/4/4c/Ecrett_logo.svg',
+desc: 'موسيقى خالية من حقوق الملكية للفيديوهات.',
+tags: ['مدفوع', 'موسيقى', 'حقوق'],
+badge: 'new'
+},
+{
+name: 'StockTune',
+url: 'https://stocktune.com',
+icon: 'https://upload.wikimedia.org/wikipedia/commons/4/4c/StockTune_logo.svg',
+desc: 'موسيقى مجانية للمشاريع.',
+tags: ['مجاني', 'موسيقى', 'مشاريع'],
+badge: 'free'
+},
+{
+name: 'Codeium',
+url: 'https://codeium.com',
+icon: 'https://cdn.simpleicons.org/codeium',
+desc: 'مساعد برمجة مجاني وقوي.',
+tags: ['مجاني', 'برمجة', 'مساعد'],
+badge: 'free'
+},
+{
+name: 'Cursor',
+url: 'https://cursor.sh',
+icon: 'https://cdn.simpleicons.org/cursor',
+desc: 'محرر أكواد ذكي بالكامل.',
+tags: ['مجاني', 'مدفوع', 'برمجة', 'محرر'],
+badge: 'new'
+},
+{
+name: 'Sourcegraph',
+url: 'https://sourcegraph.com',
+icon: 'https://cdn.simpleicons.org/sourcegraph',
+desc: 'محرك بحث للأكواد مع ذكاء اصطناعي.',
+tags: ['مجاني', 'مدفوع', 'برمجة', 'بحث'],
+badge: 'new'
+},
+{
+name: 'Tabnine',
+url: 'https://tabnine.com',
+icon: 'https://cdn.simpleicons.org/tabnine',
+desc: 'مساعد برمجة ذكي لجميع اللغات.',
+tags: ['مجاني', 'مدفوع', 'برمجة', 'مساعد'],
+badge: 'new'
+},
+{
+name: 'GitHub Copilot',
+url: 'https://github.com/features/copilot',
+icon: 'https://upload.wikimedia.org/wikipedia/commons/2/29/GitHub_Invertocat_Logo.svg',
+desc: 'مساعد برمجة من GitHub.',
+tags: ['مدفوع', 'برمجة', 'GitHub'],
+badge: 'popular'
+},
+{
+name: 'Amazon CodeWhisperer',
+url: 'https://aws.amazon.com/codewhisperer',
+icon: 'https://upload.wikimedia.org/wikipedia/commons/9/93/Amazon_Web_Services_Logo.svg',
+desc: 'مساعد برمجة من AWS.',
+tags: ['مجاني', 'مدفوع', 'برمجة', 'AWS'],
+badge: 'new'
+},
+{
+name: 'Google Codey',
+url: 'https://cloud.google.com/ai-code-assistant',
+icon: 'https://cdn.simpleicons.org/google',
+desc: 'مساعد برمجة من Google.',
+tags: ['مدفوع', 'برمجة', 'Google'],
+badge: 'new'
+},
+{
+name: 'Blackbox AI',
+url: 'https://blackbox.ai',
+icon: 'https://cdn.simpleicons.org/blackboxai',
+desc: 'مساعد برمجة متطور.',
+tags: ['مجاني', 'برمجة', 'متطور'],
+badge: 'new'
+},
+{
+name: 'CodiumAI',
+url: 'https://codium.ai',
+icon: 'https://upload.wikimedia.org/wikipedia/commons/4/4c/CodiumAI_logo.svg',
+desc: 'مساعد برمجة مع اختبار الأكواد.',
+tags: ['مجاني', 'برمجة', 'اختبار'],
+badge: 'new'
+},
+{
+name: 'Replit Ghostwriter',
+url: 'https://replit.com/site/ghostwriter',
+icon: 'https://cdn.simpleicons.org/replit',
+desc: 'مساعد برمجة في Replit.',
+tags: ['مجاني', 'مدفوع', 'برمجة', 'Replit'],
+badge: 'new'
+},
+{
+name: 'Bito AI',
+url: 'https://bito.ai',
+icon: 'https://upload.wikimedia.org/wikipedia/commons/4/4c/Bito_logo.svg',
+desc: 'مساعد برمجة سريع.',
+tags: ['مجاني', 'برمجة', 'سريع'],
+badge: 'new'
+},
+{
+name: 'AskCodi',
+url: 'https://askcodi.com',
+icon: 'https://upload.wikimedia.org/wikipedia/commons/4/4c/AskCodi_logo.svg',
+desc: 'مساعد برمجة شامل.',
+tags: ['مجاني', 'مدفوع', 'برمجة', 'شامل'],
+badge: 'new'
+},
+{
+name: 'Metabase',
+url: 'https://metabase.com',
+icon: 'https://upload.wikimedia.org/wikipedia/commons/4/4c/Metabase_logo.svg',
+desc: 'تحليل البيانات بالذكاء الاصطناعي.',
+tags: ['مجاني', 'مدفوع', 'بيانات', 'تحليل'],
+badge: 'new'
+},
+{
+name: 'Tableau AI',
+url: 'https://tableau.com/products/einstein',
+icon: 'https://upload.wikimedia.org/wikipedia/commons/4/4c/Tableau_logo.svg',
+desc: 'تحليل بيانات من Salesforce.',
+tags: ['مدفوع', 'بيانات', 'تحليل', 'Salesforce'],
+badge: 'new'
+},
+{
+name: 'Microsoft Power BI',
+url: 'https://powerbi.microsoft.com',
+icon: 'https://upload.wikimedia.org/wikipedia/commons/0/0e/Microsoft_Copilot_logo.svg',
+desc: 'تحليل بيانات من Microsoft.',
+tags: ['مدفوع', 'بيانات', 'تحليل', 'Microsoft'],
+badge: 'popular'
+},
+{
+name: 'Google Looker',
+url: 'https://looker.com',
+icon: 'https://cdn.simpleicons.org/google',
+desc: 'تحليل بيانات من Google.',
+tags: ['مدفوع', 'بيانات', 'تحليل', 'Google'],
+badge: 'new'
+},
+{
+name: 'Sisense',
+url: 'https://sisense.com',
+icon: 'https://upload.wikimedia.org/wikipedia/commons/4/4c/Sisense_logo.svg',
+desc: 'منصة تحليل بيانات متقدمة.',
+tags: ['مدفوع', 'بيانات', 'تحليل'],
+badge: 'new'
+},
+{
+name: 'Domo',
+url: 'https://domo.com',
+icon: 'https://upload.wikimedia.org/wikipedia/commons/4/4c/Domo_logo.svg',
+desc: 'منصة تحليل بيانات سحابية.',
+tags: ['مدفوع', 'بيانات', 'تحليل', 'سحابي'],
+badge: 'new'
+},
+{
+name: 'ThoughtSpot',
+url: 'https://thoughtspot.com',
+icon: 'https://upload.wikimedia.org/wikipedia/commons/4/4c/ThoughtSpot_logo.svg',
+desc: 'تحليل بيانات بالبحث الطبيعي.',
+tags: ['مدفوع', 'بيانات', 'بحث'],
+badge: 'new'
+},
+{
+name: 'Qlik',
+url: 'https://qlik.com',
+icon: 'https://upload.wikimedia.org/wikipedia/commons/4/4c/Qlik_logo.svg',
+desc: 'تحليل بيانات بصري.',
+tags: ['مدفوع', 'بيانات', 'بصري'],
+badge: 'new'
+},
+{
+name: 'Databricks',
+url: 'https://databricks.com',
+icon: 'https://upload.wikimedia.org/wikipedia/commons/4/4c/Databricks_logo.svg',
+desc: 'منصة بيانات مع ذكاء اصطناعي.',
+tags: ['مدفوع', 'بيانات', 'ذكاء'],
+badge: 'new'
+},
+{
+name: 'Snowflake',
+url: 'https://snowflake.com',
+icon: 'https://upload.wikimedia.org/wikipedia/commons/4/4c/Snowflake_logo.svg',
+desc: 'منصة بيانات سحابية.',
+tags: ['مدفوع', 'بيانات', 'سحابي'],
+badge: 'new'
+},
+{
+name: 'MongoDB Atlas',
+url: 'https://mongodb.com/atlas',
+icon: 'https://upload.wikimedia.org/wikipedia/commons/4/4c/MongoDB_logo.svg',
+desc: 'قاعدة بيانات مع ذكاء اصطناعي.',
+tags: ['مجاني', 'مدفوع', 'بيانات', 'قاعدة'],
+badge: 'new'
+},
+{
+name: 'Pinecone',
+url: 'https://pinecone.io',
+icon: 'https://upload.wikimedia.org/wikipedia/commons/4/4c/Pinecone_logo.svg',
+desc: 'قاعدة بيانات متجهات.',
+tags: ['مجاني', 'مدفوع', 'بيانات', 'متجهات'],
+badge: 'new'
+},
+{
+name: 'Weaviate',
+url: 'https://weaviate.io',
+icon: 'https://upload.wikimedia.org/wikipedia/commons/4/4c/Weaviate_logo.svg',
+desc: 'قاعدة بيانات متجهات مفتوحة المصدر.',
+tags: ['مجاني', 'مدفوع', 'بيانات', 'مفتوح المصدر'],
+badge: 'new'
+},
+{
+name: 'Zilliz',
+url: 'https://zilliz.com',
+icon: 'https://upload.wikimedia.org/wikipedia/commons/4/4c/Zilliz_logo.svg',
+desc: 'قاعدة بيانات متجهات سحابية.',
+tags: ['مجاني', 'مدفوع', 'بيانات', 'سحابي'],
+badge: 'new'
+},
+{
+name: 'Chroma',
+url: 'https://trychroma.com',
+icon: 'https://upload.wikimedia.org/wikipedia/commons/4/4c/Chroma_logo.svg',
+desc: 'قاعدة بيانات متجهات مفتوحة المصدر.',
+tags: ['مجاني', 'بيانات', 'مفتوح المصدر'],
+badge: 'free'
+},
+{
+name: 'Qdrant',
+url: 'https://qdrant.io',
+icon: 'https://upload.wikimedia.org/wikipedia/commons/4/4c/Qdrant_logo.svg',
+desc: 'قاعدة بيانات متجهات عالية الأداء.',
+tags: ['مجاني', 'مدفوع', 'بيانات', 'أداء'],
+badge: 'new'
+},
+{
+name: 'Milvus',
+url: 'https://milvus.io',
+icon: 'https://upload.wikimedia.org/wikipedia/commons/4/4c/Milvus_logo.svg',
+desc: 'قاعدة بيانات متجهات مفتوحة المصدر.',
+tags: ['مجاني', 'بيانات', 'مفتوح المصدر'],
+badge: 'free'
+},
+{
+name: 'LlamaIndex',
+url: 'https://llamaindex.ai',
+icon: 'https://upload.wikimedia.org/wikipedia/commons/4/4c/LlamaIndex_logo.svg',
+desc: 'إطار عمل لربط البيانات بالذكاء الاصطناعي.',
+tags: ['مجاني', 'بيانات', 'إطار'],
+badge: 'new'
+},
+{
+name: 'LangChain',
+url: 'https://langchain.com',
+icon: 'https://cdn.simpleicons.org/langchain',
+desc: 'إطار عمل لبناء تطبيقات الذكاء الاصطناعي.',
+tags: ['مجاني', 'إطار', 'تطبيقات'],
+badge: 'popular'
+},
+{
+name: 'Haystack',
+url: 'https://haystack.deepset.ai',
+icon: 'https://upload.wikimedia.org/wikipedia/commons/4/4c/Haystack_logo.svg',
+desc: 'إطار عمل للبحث بالذكاء الاصطناعي.',
+tags: ['مجاني', 'بحث', 'إطار'],
+badge: 'new'
+},
+{
+name: 'Flowise',
+url: 'https://flowiseai.com',
+icon: 'https://upload.wikimedia.org/wikipedia/commons/4/4c/Flowise_logo.svg',
+desc: 'بناء تطبيقات الذكاء الاصطناعي بصرياً.',
+tags: ['مجاني', 'تطبيقات', 'بصري'],
+badge: 'new'
+},
+{
+name: 'Dify',
+url: 'https://dify.ai',
+icon: 'https://upload.wikimedia.org/wikipedia/commons/4/4c/Dify_logo.svg',
+desc: 'منصة لبناء تطبيقات الذكاء الاصطناعي.',
+tags: ['مجاني', 'تطبيقات', 'منصة'],
+badge: 'new'
+},
+{
+name: 'BentoML',
+url: 'https://bentoml.com',
+icon: 'https://upload.wikimedia.org/wikipedia/commons/4/4c/BentoML_logo.svg',
+desc: 'نشر نماذج الذكاء الاصطناعي.',
+tags: ['مجاني', 'نشر', 'نماذج'],
+badge: 'new'
+},
+{
+name: 'MLflow',
+url: 'https://mlflow.org',
+icon: 'https://upload.wikimedia.org/wikipedia/commons/4/4c/MLflow_logo.svg',
+desc: 'إدارة دورة حياة نماذج الذكاء الاصطناعي.',
+tags: ['مجاني', 'إدارة', 'نماذج'],
+badge: 'new'
+},
+{
+name: 'Weights & Biases',
+url: 'https://wandb.ai',
+icon: 'https://cdn.simpleicons.org/wandb',
+desc: 'تتبع تجارب الذكاء الاصطناعي.',
+tags: ['مجاني', 'مدفوع', 'تتبع', 'تجارب'],
+badge: 'popular'
+},
+{
+name: 'Comet',
+url: 'https://comet-ml.com',
+icon: 'https://upload.wikimedia.org/wikipedia/commons/4/4c/Comet_logo.svg',
+desc: 'تتبع تجارب الذكاء الاصطناعي.',
+tags: ['مجاني', 'مدفوع', 'تتبع', 'تجارب'],
+badge: 'new'
+},
+{
+name: 'Neptune',
+url: 'https://neptune.ai',
+icon: 'https://upload.wikimedia.org/wikipedia/commons/4/4c/Neptune_logo.svg',
+desc: 'تتبع تجارب الذكاء الاصطناعي.',
+tags: ['مجاني', 'مدفوع', 'تتبع', 'تجارب'],
+badge: 'new'
+},
+{
+name: 'ClearML',
+url: 'https://clear.ml',
+icon: 'https://upload.wikimedia.org/wikipedia/commons/4/4c/ClearML_logo.svg',
+desc: 'إدارة تجارب الذكاء الاصطناعي.',
+tags: ['مجاني', 'إدارة', 'تجارب'],
+badge: 'new'
+},
+{
+name: 'Weights & Biases',
+url: 'https://wandb.ai',
+icon: 'https://cdn.simpleicons.org/wandb',
+desc: 'أداة تتبع تجارب الذكاء الاصطناعي.',
+tags: ['مجاني', 'مدفوع', 'تتبع', 'تجارب'],
+badge: 'popular'
+},
+{
+name: 'Hugging Face',
+url: 'https://huggingface.co',
+icon: 'https://upload.wikimedia.org/wikipedia/commons/d/d0/Hf-logo-with-title.svg',
+desc: 'أكبر مجتمع للنماذج المفتوحة المصدر.',
+tags: ['مجاني', 'مجتمع', 'نماذج', 'مفتوح المصدر'],
+badge: 'popular'
+},
+{
+name: 'GitHub',
+url: 'https://github.com',
+icon: 'https://upload.wikimedia.org/wikipedia/commons/2/29/GitHub_Invertocat_Logo.svg',
+desc: 'أكبر منصة للمشاريع مفتوحة المصدر.',
+tags: ['مجاني', 'مشاريع', 'مفتوح المصدر'],
+badge: 'popular'
+},
+{
+name: 'Kaggle',
+url: 'https://kaggle.com',
+icon: 'https://cdn.simpleicons.org/kaggle',
+desc: 'منصة لمسابقات البيانات والتعلم.',
+tags: ['مجاني', 'بيانات', 'مسابقات', 'تعلم'],
+badge: 'popular'
+},
+{
+name: 'Colab',
+url: 'https://colab.research.google.com',
+icon: 'https://cdn.simpleicons.org/google',
+desc: 'بيئة برمجة مجانية من Google.',
+tags: ['مجاني', 'برمجة', 'Google'],
+badge: 'free'
+},
+{
+name: 'Paperspace',
+url: 'https://paperspace.com',
+icon: 'https://upload.wikimedia.org/wikipedia/commons/4/4c/Paperspace_logo.svg',
+desc: 'سحابة للذكاء الاصطناعي.',
+tags: ['مجاني', 'مدفوع', 'سحابة', 'ذكاء'],
+badge: 'new'
+},
+{
+name: 'Gradient',
+url: 'https://gradient.ai',
+icon: 'https://upload.wikimedia.org/wikipedia/commons/4/4c/Gradient_logo.svg',
+desc: 'منصة للذكاء الاصطناعي.',
+tags: ['مجاني', 'مدفوع', 'ذكاء'],
+badge: 'new'
+},
+{
+name: 'Replicate',
+url: 'https://replicate.com',
+icon: 'https://upload.wikimedia.org/wikipedia/commons/4/4c/Replicate_logo.svg',
+desc: 'تشغيل نماذج الذكاء الاصطناعي.',
+tags: ['مجاني', 'مدفوع', 'نماذج'],
+badge: 'new'
+},
+{
+name: 'Modal',
+url: 'https://modal.com',
+icon: 'https://upload.wikimedia.org/wikipedia/commons/4/4c/Modal_logo.svg',
+desc: 'منصة لتشغيل النماذج.',
+tags: ['مجاني', 'مدفوع', 'نماذج'],
+badge: 'new'
+},
+{
+name: 'RunPod',
+url: 'https://runpod.io',
+icon: 'https://upload.wikimedia.org/wikipedia/commons/4/4c/RunPod_logo.svg',
+desc: 'سحابة للذكاء الاصطناعي.',
+tags: ['مدفوع', 'سحابة', 'ذكاء'],
+badge: 'new'
+},
+{
+name: 'Lambda Labs',
+url: 'https://lambdalabs.com',
+icon: 'https://upload.wikimedia.org/wikipedia/commons/4/4c/Lambda_Labs_logo.svg',
+desc: 'سحابة للذكاء الاصطناعي.',
+tags: ['مدفوع', 'سحابة', 'ذكاء'],
+badge: 'new'
+},
+{
+name: 'Vast.ai',
+url: 'https://vast.ai',
+icon: 'https://upload.wikimedia.org/wikipedia/commons/4/4c/Vast_logo.svg',
+desc: 'سحابة للذكاء الاصطناعي.',
+tags: ['مجاني', 'مدفوع', 'سحابة', 'ذكاء'],
+badge: 'new'
+},
+{
+name: 'CoreWeave',
+url: 'https://coreweave.com',
+icon: 'https://upload.wikimedia.org/wikipedia/commons/4/4c/CoreWeave_logo.svg',
+desc: 'سحابة للذكاء الاصطناعي.',
+tags: ['مدفوع', 'سحابة', 'ذكاء'],
+badge: 'new'
+},
+{
+name: 'Genesis Cloud',
+url: 'https://genesiscloud.com',
+icon: 'https://upload.wikimedia.org/wikipedia/commons/4/4c/Genesis_logo.svg',
+desc: 'سحابة للذكاء الاصطناعي.',
+tags: ['مجاني', 'مدفوع', 'سحابة', 'ذكاء'],
+badge: 'new'
+},
+{
+name: 'Cerebras',
+url: 'https://cerebras.ai',
+icon: 'https://upload.wikimedia.org/wikipedia/commons/4/4c/Cerebras_logo.svg',
+desc: 'معالجات متخصصة للذكاء الاصطناعي.',
+tags: ['مدفوع', 'معالجات', 'ذكاء'],
+badge: 'new'
+},
+{
+name: 'SambaNova',
+url: 'https://sambanova.ai',
+icon: 'https://upload.wikimedia.org/wikipedia/commons/4/4c/SambaNova_logo.svg',
+desc: 'معالجات متخصصة للذكاء الاصطناعي.',
+tags: ['مدفوع', 'معالجات', 'ذكاء'],
+badge: 'new'
+},
+{
+name: 'GroqCloud',
+url: 'https://groq.com/cloud',
+icon: 'https://upload.wikimedia.org/wikipedia/commons/e/e6/Groq_logo.svg',
+desc: 'سحابة سريعة للذكاء الاصطناعي.',
+tags: ['مجاني', 'مدفوع', 'سحابة', 'سريع'],
+badge: 'new'
+},
+{
+name: 'Anyscale',
+url: 'https://anyscale.com',
+icon: 'https://upload.wikimedia.org/wikipedia/commons/4/4c/Anyscale_logo.svg',
+desc: 'منصة للذكاء الاصطناعي.',
+tags: ['مجاني', 'مدفوع', 'ذكاء'],
+badge: 'new'
+},
+{
+name: 'Lightning AI',
+url: 'https://lightning.ai',
+icon: 'https://upload.wikimedia.org/wikipedia/commons/4/4c/Lightning_logo.svg',
+desc: 'منصة للذكاء الاصطناعي.',
+tags: ['مجاني', 'مدفوع', 'ذكاء'],
+badge: 'new'
+},
+{
+name: 'FloydHub',
+url: 'https://floydhub.com',
+icon: 'https://upload.wikimedia.org/wikipedia/commons/4/4c/FloydHub_logo.svg',
+desc: 'منصة للذكاء الاصطناعي.',
+tags: ['مجاني', 'مدفوع', 'ذكاء'],
+badge: 'new'
+},
+{
+name: 'ModelScope',
+url: 'https://modelscope.cn',
+icon: 'https://upload.wikimedia.org/wikipedia/commons/4/4c/ModelScope_logo.svg',
+desc: 'منصة صينية للنماذج.',
+tags: ['مجاني', 'نماذج', 'صيني'],
+badge: 'new'
+},
+{
+name: 'WiseModel',
+url: 'https://wisemodel.cn',
+icon: 'https://upload.wikimedia.org/wikipedia/commons/4/4c/WiseModel_logo.svg',
+desc: 'منصة صينية للنماذج.',
+tags: ['مجاني', 'نماذج', 'صيني'],
+badge: 'new'
+},
+{
+name: 'MaaS',
+url: 'https://maas.ai',
+icon: 'https://upload.wikimedia.org/wikipedia/commons/4/4c/MaaS_logo.svg',
+desc: 'نماذج كخدمة.',
+tags: ['مجاني', 'مدفوع', 'نماذج'],
+badge: 'new'
+},
+{
+name: 'Jina AI',
+url: 'https://jina.ai',
+icon: 'https://upload.wikimedia.org/wikipedia/commons/4/4c/Jina_logo.svg',
+desc: 'منصة للذكاء الاصطناعي.',
+tags: ['مجاني', 'مدفوع', 'ذكاء'],
+badge: 'new'
+},
+{
+name: 'Cohere',
+url: 'https://cohere.com',
+icon: 'https://upload.wikimedia.org/wikipedia/commons/5/5f/Cohere_logo.svg',
+desc: 'نماذج لغة للشركات.',
+tags: ['مدفوع', 'لغة', 'شركات'],
+badge: 'new'
+},
+{
+name: 'AI21 Labs',
+url: 'https://ai21.com',
+icon: 'https://upload.wikimedia.org/wikipedia/commons/4/4c/AI21_logo.svg',
+desc: 'نماذج لغة متقدمة.',
+tags: ['مجاني', 'مدفوع', 'لغة'],
+badge: 'new'
+},
+{
+name: 'Writer',
+url: 'https://writer.com',
+icon: 'https://upload.wikimedia.org/wikipedia/commons/4/4c/Writer_logo.svg',
+desc: 'مساعد كتابة للشركات.',
+tags: ['مدفوع', 'كتابة', 'شركات'],
+badge: 'new'
+},
+{
+name: 'Jasper',
+url: 'https://jasper.ai',
+icon: 'https://upload.wikimedia.org/wikipedia/commons/4/4c/Jasper_logo.svg',
+desc: 'مساعد كتابة للتسويق.',
+tags: ['مدفوع', 'كتابة', 'تسويق'],
+badge: 'popular'
+},
+{
+name: 'Copy.ai',
+url: 'https://copy.ai',
+icon: 'https://upload.wikimedia.org/wikipedia/commons/4/4c/Copy_ai_logo.svg',
+desc: 'مساعد كتابة للتسويق.',
+tags: ['مجاني', 'مدفوع', 'كتابة', 'تسويق'],
+badge: 'new'
+},
+{
+name: 'Writesonic',
+url: 'https://writesonic.com',
+icon: 'https://upload.wikimedia.org/wikipedia/commons/4/4c/Writesonic_logo.svg',
+desc: 'مساعد كتابة للتسويق.',
+tags: ['مجاني', 'مدفوع', 'كتابة', 'تسويق'],
+badge: 'new'
+},
+{
+name: 'Rytr',
+url: 'https://rytr.me',
+icon: 'https://upload.wikimedia.org/wikipedia/commons/4/4c/Rytr_logo.svg',
+desc: 'مساعد كتابة بسيط.',
+tags: ['مجاني', 'مدفوع', 'كتابة', 'بسيط'],
+badge: 'new'
+},
+{
+name: 'Sudowrite',
+url: 'https://sudowrite.com',
+icon: 'https://upload.wikimedia.org/wikipedia/commons/4/4c/Sudowrite_logo.svg',
+desc: 'مساعد كتابة للروايات.',
+tags: ['مدفوع', 'كتابة', 'روايات'],
+badge: 'new'
+},
+{
+name: 'NovelAI',
+url: 'https://novelai.net',
+icon: 'https://upload.wikimedia.org/wikipedia/commons/4/4c/NovelAI_logo.svg',
+desc: 'مساعد كتابة للروايات.',
+tags: ['مدفوع', 'كتابة', 'روايات'],
+badge: 'new'
+},
+{
+name: 'Sudowrite',
+url: 'https://sudowrite.com',
+icon: 'https://upload.wikimedia.org/wikipedia/commons/4/4c/Sudowrite_logo.svg',
+desc: 'مساعد كتابة للقصة.',
+tags: ['مدفوع', 'كتابة', 'قصة'],
+badge: 'new'
+},
+{
+name: 'Anyword',
+url: 'https://anyword.com',
+icon: 'https://upload.wikimedia.org/wikipedia/commons/4/4c/Anyword_logo.svg',
+desc: 'مساعد كتابة للإعلانات.',
+tags: ['مدفوع', 'كتابة', 'إعلانات'],
+badge: 'new'
+},
+{
+name: 'AdCreative.ai',
+url: 'https://adcreative.ai',
+icon: 'https://upload.wikimedia.org/wikipedia/commons/4/4c/AdCreative_logo.svg',
+desc: 'إنشاء إعلانات بالذكاء الاصطناعي.',
+tags: ['مدفوع', 'إعلانات', 'تسويق'],
+badge: 'new'
+},
+{
+name: 'Pencil',
+url: 'https://pencil.ai',
+icon: 'https://upload.wikimedia.org/wikipedia/commons/4/4c/Pencil_logo.svg',
+desc: 'إنشاء إعلانات بالذكاء الاصطناعي.',
+tags: ['مدفوع', 'إعلانات', 'تسويق'],
+badge: 'new'
+},
+{
+name: 'Smartly.io',
+url: 'https://smartly.io',
+icon: 'https://upload.wikimedia.org/wikipedia/commons/4/4c/Smartly_logo.svg',
+desc: 'إدارة إعلانات بالذكاء الاصطناعي.',
+tags: ['مدفوع', 'إعلانات', 'تسويق'],
+badge: 'new'
+},
+{
+name: 'Pattern',
+url: 'https://pattern.com',
+icon: 'https://upload.wikimedia.org/wikipedia/commons/4/4c/Pattern_logo.svg',
+desc: 'إعلانات للتجارة الإلكترونية.',
+tags: ['مدفوع', 'إعلانات', 'تجارة'],
+badge: 'new'
+},
+{
+name: 'Tapcart',
+url: 'https://tapcart.com',
+icon: 'https://upload.wikimedia.org/wikipedia/commons/4/4c/Tapcart_logo.svg',
+desc: 'تطبيقات للتجارة الإلكترونية.',
+tags: ['مدفوع', 'تطبيقات', 'تجارة'],
+badge: 'new'
+},
+{
+name: 'Builder.ai',
+url: 'https://builder.ai',
+icon: 'https://upload.wikimedia.org/wikipedia/commons/4/4c/Builder_logo.svg',
+desc: 'بناء تطبيقات بالذكاء الاصطناعي.',
+tags: ['مدفوع', 'تطبيقات', 'بناء'],
+badge: 'new'
+},
+{
+name: 'Glide',
+url: 'https://glideapps.com',
+icon: 'https://upload.wikimedia.org/wikipedia/commons/4/4c/Glide_logo.svg',
+desc: 'بناء تطبيقات بسهولة.',
+tags: ['مجاني', 'مدفوع', 'تطبيقات', 'سهل'],
+badge: 'new'
+},
+{
+name: 'Bubble',
+url: 'https://bubble.io',
+icon: 'https://upload.wikimedia.org/wikipedia/commons/4/4c/Bubble_logo.svg',
+desc: 'بناء تطبيقات بدون كود.',
+tags: ['مجاني', 'مدفوع', 'تطبيقات', 'بدون كود'],
+badge: 'new'
+},
+{
+name: 'FlutterFlow',
+url: 'https://flutterflow.io',
+icon: 'https://upload.wikimedia.org/wikipedia/commons/4/4c/FlutterFlow_logo.svg',
+desc: 'بناء تطبيقات Flutter.',
+tags: ['مجاني', 'مدفوع', 'تطبيقات', 'Flutter'],
+badge: 'new'
+},
+{
+name: 'AppSheet',
+url: 'https://appsheet.google.com',
+icon: 'https://cdn.simpleicons.org/google',
+desc: 'بناء تطبيقات من Google.',
+tags: ['مجاني', 'مدفوع', 'تطبيقات', 'Google'],
+badge: 'new'
+},
+{
+name: 'Power Apps',
+url: 'https://powerapps.microsoft.com',
+icon: 'https://upload.wikimedia.org/wikipedia/commons/0/0e/Microsoft_Copilot_logo.svg',
+desc: 'بناء تطبيقات من Microsoft.',
+tags: ['مدفوع', 'تطبيقات', 'Microsoft'],
+badge: 'new'
+},
+{
+name: 'Zapier',
+url: 'https://zapier.com',
+icon: 'https://cdn.simpleicons.org/zapier',
+desc: 'أتمتة الأعمال.',
+tags: ['مجاني', 'مدفوع', 'أتمتة', 'أعمال'],
+badge: 'popular'
+},
+{
+name: 'Make',
+url: 'https://make.com',
+icon: 'https://upload.wikimedia.org/wikipedia/commons/4/4c/Make_logo.svg',
+desc: 'أتمتة بصرية.',
+tags: ['مجاني', 'مدفوع', 'أتمتة', 'بصري'],
+badge: 'new'
+},
+{
+name: 'n8n',
+url: 'https://n8n.io',
+icon: 'https://upload.wikimedia.org/wikipedia/commons/4/4c/n8n_logo.svg',
+desc: 'أتمتة مفتوحة المصدر.',
+tags: ['مجاني', 'مدفوع', 'أتمتة', 'مفتوح المصدر'],
+badge: 'new'
+},
+{
+name: 'Automate.io',
+url: 'https://automate.io',
+icon: 'https://upload.wikimedia.org/wikipedia/commons/4/4c/Automate_logo.svg',
+desc: 'أتمتة بسيطة.',
+tags: ['مجاني', 'مدفوع', 'أتمتة', 'بسيط'],
+badge: 'new'
+},
+{
+name: 'IFTTT',
+url: 'https://ifttt.com',
+icon: 'https://upload.wikimedia.org/wikipedia/commons/4/4c/IFTTT_logo.svg',
+desc: 'أتمتة بسيطة.',
+tags: ['مجاني', 'مدفوع', 'أتمتة', 'بسيط'],
+badge: 'popular'
+},
+{
+name: 'Workato',
+url: 'https://workato.com',
+icon: 'https://upload.wikimedia.org/wikipedia/commons/4/4c/Workato_logo.svg',
+desc: 'أتمتة للشركات.',
+tags: ['مدفوع', 'أتمتة', 'شركات'],
+badge: 'new'
+},
+{
+name: 'Tray.io',
+url: 'https://tray.io',
+icon: 'https://upload.wikimedia.org/wikipedia/commons/4/4c/Tray_logo.svg',
+desc: 'أتمتة متقدمة.',
+tags: ['مدفوع', 'أتمتة', 'متقدم'],
+badge: 'new'
+},
+{
+name: 'Parabola',
+url: 'https://parabola.io',
+icon: 'https://upload.wikimedia.org/wikipedia/commons/4/4c/Parabola_logo.svg',
+desc: 'أتمتة للبيانات.',
+tags: ['مجاني', 'مدفوع', 'أتمتة', 'بيانات'],
+badge: 'new'
+},
+{
+name: 'Airtable',
+url: 'https://airtable.com',
+icon: 'https://cdn.simpleicons.org/airtable',
+desc: 'قواعد بيانات مع ذكاء اصطناعي.',
+tags: ['مجاني', 'مدفوع', 'بيانات', 'ذكاء'],
+badge: 'popular'
+},
+{
+name: 'Notion AI',
+url: 'https://notion.so/product/ai',
+icon: 'https://upload.wikimedia.org/wikipedia/commons/4/4e/Notion-logo.svg',
+desc: 'ملاحظات مع ذكاء اصطناعي.',
+tags: ['مجاني', 'مدفوع', 'ملاحظات', 'ذكاء'],
+badge: 'popular'
+},
+{
+name: 'Obsidian',
+url: 'https://obsidian.md',
+icon: 'https://cdn.simpleicons.org/obsidian',
+desc: 'ملاحظات مع إضافات ذكاء اصطناعي.',
+tags: ['مجاني', 'مدفوع', 'ملاحظات', 'إضافات'],
+badge: 'new'
+},
+{
+name: 'Roam Research',
+url: 'https://roamresearch.com',
+icon: 'https://upload.wikimedia.org/wikipedia/commons/4/4c/Roam_logo.svg',
+desc: 'ملاحظات بصرية.',
+tags: ['مجاني', 'مدفوع', 'ملاحظات', 'بصري'],
+badge: 'new'
+},
+{
+name: 'Logseq',
+url: 'https://logseq.com',
+icon: 'https://cdn.simpleicons.org/logseq',
+desc: 'ملاحظات مفتوحة المصدر.',
+tags: ['مجاني', 'ملاحظات', 'مفتوح المصدر'],
+badge: 'free'
+},
+{
+name: 'RemNote',
+url: 'https://remnote.com',
+icon: 'https://upload.wikimedia.org/wikipedia/commons/4/4c/RemNote_logo.svg',
+desc: 'ملاحظات للتعلم.',
+tags: ['مجاني', 'مدفوع', 'ملاحظات', 'تعلم'],
+badge: 'new'
+},
+{
+name: 'Mem.ai',
+url: 'https://mem.ai',
+icon: 'https://upload.wikimedia.org/wikipedia/commons/4/4c/Mem_logo.svg',
+desc: 'ملاحظات ذكية.',
+tags: ['مجاني', 'مدفوع', 'ملاحظات', 'ذكي'],
+badge: 'new'
+},
+{
+name: 'Supernormal',
+url: 'https://supernormal.com',
+icon: 'https://upload.wikimedia.org/wikipedia/commons/4/4c/Supernormal_logo.svg',
+desc: 'ملخصات الاجتماعات.',
+tags: ['مجاني', 'مدفوع', 'اجتماعات', 'ملخصات'],
+badge: 'new'
+},
+{
+name: 'Fireflies.ai',
+url: 'https://fireflies.ai',
+icon: 'https://upload.wikimedia.org/wikipedia/commons/4/4c/Fireflies_logo.svg',
+desc: 'تسجيل وتلخيص الاجتماعات.',
+tags: ['مجاني', 'مدفوع', 'اجتماعات', 'تسجيل'],
+badge: 'new'
+},
+{
+name: 'Otter.ai',
+url: 'https://otter.ai',
+icon: 'https://upload.wikimedia.org/wikipedia/commons/4/4c/Otter_logo.svg',
+desc: 'تسجيل وتلخيص الاجتماعات.',
+tags: ['مجاني', 'مدفوع', 'اجتماعات', 'تسجيل'],
+badge: 'popular'
+},
+{
+name: 'MeetGeek',
+url: 'https://meetgeek.ai',
+icon: 'https://upload.wikimedia.org/wikipedia/commons/4/4c/MeetGeek_logo.svg',
+desc: 'تسجيل وتلخيص الاجتماعات.',
+tags: ['مجاني', 'مدفوع', 'اجتماعات', 'تسجيل'],
+badge: 'new'
+},
+{
+name: 'Fathom',
+url: 'https://fathom.video',
+icon: 'https://upload.wikimedia.org/wikipedia/commons/4/4c/Fathom_logo.svg',
+desc: 'تسجيل وتلخيص الاجتماعات.',
+tags: ['مجاني', 'اجتماعات', 'تسجيل'],
+badge: 'free'
+},
+{
+name: 'Gong',
+url: 'https://gong.io',
+icon: 'https://upload.wikimedia.org/wikipedia/commons/4/4c/Gong_logo.svg',
+desc: 'تحليل المكالمات المبيعية.',
+tags: ['مدفوع', 'مبيعات', 'تحليل'],
+badge: 'new'
+},
+{
+name: 'Chorus.ai',
+url: 'https://chorus.ai',
+icon: 'https://upload.wikimedia.org/wikipedia/commons/4/4c/Chorus_logo.svg',
+desc: 'تحليل المكالمات المبيعية.',
+tags: ['مدفوع', 'مبيعات', 'تحليل'],
+badge: 'new'
+},
+{
+name: 'Jiminny',
+url: 'https://jiminny.com',
+icon: 'https://upload.wikimedia.org/wikipedia/commons/4/4c/Jiminny_logo.svg',
+desc: 'تحليل المكالمات المبيعية.',
+tags: ['مدفوع', 'مبيعات', 'تحليل'],
+badge: 'new'
+},
+{
+name: 'Avoma',
+url: 'https://avoma.com',
+icon: 'https://upload.wikimedia.org/wikipedia/commons/4/4c/Avoma_logo.svg',
+desc: 'تحليل الاجتماعات.',
+tags: ['مجاني', 'مدفوع', 'اجتماعات', 'تحليل'],
+badge: 'new'
+},
+{
+name: 'Grain',
+url: 'https://grain.com',
+icon: 'https://upload.wikimedia.org/wikipedia/commons/4/4c/Grain_logo.svg',
+desc: 'تسجيل وتحليل الاجتماعات.',
+tags: ['مجاني', 'مدفوع', 'اجتماعات', 'تحليل'],
+badge: 'new'
+},
+{
+name: 'tl;dv',
+url: 'https://tldv.io',
+icon: 'https://upload.wikimedia.org/wikipedia/commons/4/4c/Tldv_logo.svg',
+desc: 'تسجيل وتلخيص الاجتماعات.',
+tags: ['مجاني', 'اجتماعات', 'تسجيل'],
+badge: 'free'
+},
+{
+name: 'Rewatch',
+url: 'https://rewatch.com',
+icon: 'https://upload.wikimedia.org/wikipedia/commons/4/4c/Rewatch_logo.svg',
+desc: 'تسجيل وتلخيص الاجتماعات.',
+tags: ['مجاني', 'مدفوع', 'اجتماعات', 'تسجيل'],
+badge: 'new'
+},
+{
+name: 'Loom',
+url: 'https://loom.com',
+icon: 'https://cdn.simpleicons.org/loom',
+desc: 'تسجيل فيديوهات الشاشة.',
+tags: ['مجاني', 'مدفوع', 'فيديو', 'شاشة'],
+badge: 'popular'
+},
+{
+name: 'Descript',
+url: 'https://descript.com',
+icon: 'https://upload.wikimedia.org/wikipedia/commons/4/4c/Descript_logo.svg',
+desc: 'تحرير الفيديو والصوت بالنص.',
+tags: ['مجاني', 'مدفوع', 'فيديو', 'صوت'],
+badge: 'new'
+},
+{
+name: 'Riverside.fm',
+url: 'https://riverside.fm',
+icon: 'https://upload.wikimedia.org/wikipedia/commons/4/4c/Riverside_logo.svg',
+desc: 'تسجيل بودكاست عالي الجودة.',
+tags: ['مجاني', 'مدفوع', 'بودكاست', 'تسجيل'],
+badge: 'new'
+},
+{
+name: 'SquadCast',
+url: 'https://squadcast.fm',
+icon: 'https://upload.wikimedia.org/wikipedia/commons/4/4c/SquadCast_logo.svg',
+desc: 'تسجيل بودكاست.',
+tags: ['مدفوع', 'بودكاست', 'تسجيل'],
+badge: 'new'
+},
+{
+name: 'Zencastr',
+url: 'https://zencastr.com',
+icon: 'https://upload.wikimedia.org/wikipedia/commons/4/4c/Zencastr_logo.svg',
+desc: 'تسجيل بودكاست.',
+tags: ['مجاني', 'مدفوع', 'بودكاست', 'تسجيل'],
+badge: 'new'
+},
+{
+name: 'Anchor',
+url: 'https://anchor.spotify.com',
+icon: 'https://upload.wikimedia.org/wikipedia/commons/4/4c/Anchor_logo.svg',
+desc: 'نشر بودكاست من Spotify.',
+tags: ['مجاني', 'بودكاست', 'Spotify'],
+badge: 'free'
+},
+{
+name: 'Buzzsprout',
+url: 'https://buzzsprout.com',
+icon: 'https://upload.wikimedia.org/wikipedia/commons/4/4c/Buzzsprout_logo.svg',
+desc: 'استضافة بودكاست.',
+tags: ['مجاني', 'مدفوع', 'بودكاست', 'استضافة'],
+badge: 'new'
+},
+{
+name: 'Libsyn',
+url: 'https://libsyn.com',
+icon: 'https://upload.wikimedia.org/wikipedia/commons/4/4c/Libsyn_logo.svg',
+desc: 'استضافة بودكاست.',
+tags: ['مدفوع', 'بودكاست', 'استضافة'],
+badge: 'new'
+},
+{
+name: 'Transistor.fm',
+url: 'https://transistor.fm',
+icon: 'https://upload.wikimedia.org/wikipedia/commons/4/4c/Transistor_logo.svg',
+desc: 'استضافة بودكاست.',
+tags: ['مدفوع', 'بودكاست', 'استضافة'],
+badge: 'new'
+},
+{
+name: 'Podbean',
+url: 'https://podbean.com',
+icon: 'https://upload.wikimedia.org/wikipedia/commons/4/4c/Podbean_logo.svg',
+desc: 'استضافة بودكاست.',
+tags: ['مجاني', 'مدفوع', 'بودكاست', 'استضافة'],
+badge: 'new'
+},
+{
+name: 'Castos',
+url: 'https://castos.com',
+icon: 'https://upload.wikimedia.org/wikipedia/commons/4/4c/Castos_logo.svg',
+desc: 'استضافة بودكاست.',
+tags: ['مجاني', 'مدفوع', 'بودكاست', 'استضافة'],
+badge: 'new'
+},
+{
+name: 'Simplecast',
+url: 'https://simplecast.com',
+icon: 'https://upload.wikimedia.org/wikipedia/commons/4/4c/Simplecast_logo.svg',
+desc: 'استضافة بودكاست.',
+tags: ['مدفوع', 'بودكاست', 'استضافة'],
+badge: 'new'
+},
+{
+name: 'Podpage',
+url: 'https://podpage.com',
+icon: 'https://upload.wikimedia.org/wikipedia/commons/4/4c/Podpage_logo.svg',
+desc: 'موقع بودكاست.',
+tags: ['مجاني', 'مدفوع', 'بودكاست', 'موقع'],
+badge: 'new'
+},
+{
+name: 'Podsite',
+url: 'https://podsite.com',
+icon: 'https://upload.wikimedia.org/wikipedia/commons/4/4c/Podsite_logo.svg',
+desc: 'موقع بودكاست.',
+tags: ['مجاني', 'مدفوع', 'بودكاست', 'موقع'],
+badge: 'new'
+},
+{
+name: 'WordPress',
+url: 'https://wordpress.com',
+icon: 'https://cdn.simpleicons.org/wordpress',
+desc: 'إنشاء مواقع.',
+tags: ['مجاني', 'مدفوع', 'مواقع', 'إنشاء'],
+badge: 'popular'
+},
+{
+name: 'Webflow',
+url: 'https://webflow.com',
+icon: 'https://cdn.simpleicons.org/webflow',
+desc: 'تصميم مواقع بصرياً.',
+tags: ['مجاني', 'مدفوع', 'مواقع', 'تصميم'],
+badge: 'new'
+},
+{
+name: 'Framer',
+url: 'https://framer.com',
+icon: 'https://cdn.simpleicons.org/framer',
+desc: 'تصميم مواقع بصرياً.',
+tags: ['مجاني', 'مدفوع', 'مواقع', 'تصميم'],
+badge: 'new'
+},
+{
+name: 'Squarespace',
+url: 'https://squarespace.com',
+icon: 'https://cdn.simpleicons.org/squarespace',
+desc: 'إنشاء مواقع.',
+tags: ['مدفوع', 'مواقع', 'إنشاء'],
+badge: 'new'
+},
+{
+name: 'Wix',
+url: 'https://wix.com',
+icon: 'https://cdn.simpleicons.org/wix',
+desc: 'إنشاء مواقع.',
+tags: ['مجاني', 'مدفوع', 'مواقع', 'إنشاء'],
+badge: 'popular'
+},
+{
+name: 'Shopify',
+url: 'https://shopify.com',
+icon: 'https://cdn.simpleicons.org/shopify',
+desc: 'متاجر إلكترونية.',
+tags: ['مجاني', 'مدفوع', 'تجارة', 'متاجر'],
+badge: 'popular'
+},
+{
+name: 'BigCommerce',
+url: 'https://bigcommerce.com',
+icon: 'https://upload.wikimedia.org/wikipedia/commons/4/4c/BigCommerce_logo.svg',
+desc: 'متاجر إلكترونية.',
+tags: ['مدفوع', 'تجارة', 'متاجر'],
+badge: 'new'
+},
+{
+name: 'WooCommerce',
+url: 'https://woocommerce.com',
+icon: 'https://upload.wikimedia.org/wikipedia/commons/4/4c/WooCommerce_logo.svg',
+desc: 'متاجر إلكترونية.',
+tags: ['مجاني', 'تجارة', 'متاجر'],
+badge: 'free'
+},
+{
+name: 'Magento',
+url: 'https://magento.com',
+icon: 'https://upload.wikimedia.org/wikipedia/commons/4/4c/Magento_logo.svg',
+desc: 'متاجر إلكترونية.',
+tags: ['مجاني', 'مدفوع', 'تجارة', 'متاجر'],
+badge: 'new'
+},
+{
+name: 'Salesforce',
+url: 'https://salesforce.com',
+icon: 'https://cdn.simpleicons.org/salesforce',
+desc: 'إدارة العملاء.',
+tags: ['مدفوع', 'عملاء', 'إدارة'],
+badge: 'popular'
+},
+{
+name: 'HubSpot',
+url: 'https://hubspot.com',
+icon: 'https://cdn.simpleicons.org/hubspot',
+desc: 'تسويق ومبيعات.',
+tags: ['مجاني', 'مدفوع', 'تسويق', 'مبيعات'],
+badge: 'popular'
+},
+{
+name: 'Zoho',
+url: 'https://zoho.com',
+icon: 'https://cdn.simpleicons.org/zoho',
+desc: 'أعمال متكاملة.',
+tags: ['مجاني', 'مدفوع', 'أعمال', 'متكامل'],
+badge: 'new'
+},
+{
+name: 'Monday.com',
+url: 'https://monday.com',
+icon: 'https://upload.wikimedia.org/wikipedia/commons/4/4e/Monday_logo.svg',
+desc: 'إدارة المشاريع.',
+tags: ['مجاني', 'مدفوع', 'مشاريع', 'إدارة'],
+badge: 'popular'
+},
+{
+name: 'Asana',
+url: 'https://asana.com',
+icon: 'https://upload.wikimedia.org/wikipedia/commons/2/26/Asana_logo.svg',
+desc: 'إدارة المشاريع.',
+tags: ['مجاني', 'مدفوع', 'مشاريع', 'إدارة'],
+badge: 'popular'
+},
+{
+name: 'Trello',
+url: 'https://trello.com',
+icon: 'https://upload.wikimedia.org/wikipedia/commons/3/39/Trello-logo-blue.svg',
+desc: 'إدارة المهام.',
+tags: ['مجاني', 'مدفوع', 'مهام', 'إدارة'],
+badge: 'popular'
+},
+{
+name: 'Jira',
+url: 'https://atlassian.com/jira',
+icon: 'https://cdn.simpleicons.org/jira',
+desc: 'إدارة المشاريع.',
+tags: ['مجاني', 'مدفوع', 'مشاريع', 'إدارة'],
+badge: 'popular'
+},
+{
+name: 'ClickUp',
+url: 'https://clickup.com',
+icon: 'https://cdn.simpleicons.org/clickup',
+desc: 'إدارة المشاريع.',
+tags: ['مجاني', 'مدفوع', 'مشاريع', 'إدارة'],
+badge: 'new'
+},
+{
+name: 'Notion',
+url: 'https://notion.so',
+icon: 'https://upload.wikimedia.org/wikipedia/commons/4/4e/Notion-logo.svg',
+desc: 'ملاحظات وإدارة.',
+tags: ['مجاني', 'مدفوع', 'ملاحظات', 'إدارة'],
+badge: 'popular'
+},
+{
+name: 'Slack',
+url: 'https://slack.com',
+icon: 'https://upload.wikimedia.org/wikipedia/commons/4/48/Slack_Technologies_Logo.svg',
+desc: 'تواصل الفريق.',
+tags: ['مجاني', 'مدفوع', 'تواصل', 'فريق'],
+badge: 'popular'
+},
+{
+name: 'Discord',
+url: 'https://discord.com',
+icon: 'https://upload.wikimedia.org/wikipedia/commons/4/48/Discord_colour_textlogo_(2021).svg',
+desc: 'تواصل المجتمعات.',
+tags: ['مجاني', 'تواصل', 'مجتمعات'],
+badge: 'popular'
+},
+{
+name: 'Teams',
+url: 'https://teams.microsoft.com',
+icon: 'https://upload.wikimedia.org/wikipedia/commons/0/0e/Microsoft_Copilot_logo.svg',
+desc: 'تواصل من Microsoft.',
+tags: ['مجاني', 'تواصل', 'Microsoft'],
+badge: 'popular'
+},
+{
+name: 'Zoom',
+url: 'https://zoom.us',
+icon: 'https://upload.wikimedia.org/wikipedia/commons/2/24/Zoom_Logo_2022.svg',
+desc: 'اجتماعات الفيديو.',
+tags: ['مجاني', 'مدفوع', 'اجتماعات', 'فيديو'],
+badge: 'popular'
+},
+{
+name: 'Google Meet',
+url: 'https://meet.google.com',
+icon: 'https://cdn.simpleicons.org/google',
+desc: 'اجتماعات من Google.',
+tags: ['مجاني', 'اجتماعات', 'Google'],
+badge: 'free'
+},
+{
+name: 'Figma',
+url: 'https://figma.com',
+icon: 'https://upload.wikimedia.org/wikipedia/commons/3/33/Figma-logo.svg',
+desc: 'تصميم واجهات.',
+tags: ['مجاني', 'مدفوع', 'تصميم', 'واجهات'],
+badge: 'popular'
+},
+{
+name: 'Sketch',
+url: 'https://sketch.com',
+icon: 'https://upload.wikimedia.org/wikipedia/commons/4/4c/Sketch_logo.svg',
+desc: 'تصميم واجهات.',
+tags: ['مدفوع', 'تصميم', 'واجهات'],
+badge: 'new'
+},
+{
+name: 'Adobe XD',
+url: 'https://adobe.com/products/xd',
+icon: 'https://cdn.simpleicons.org/adobe',
+desc: 'تصميم واجهات من Adobe.',
+tags: ['مجاني', 'مدفوع', 'تصميم', 'Adobe'],
+badge: 'new'
+},
+{
+name: 'InVision',
+url: 'https://invisionapp.com',
+icon: 'https://upload.wikimedia.org/wikipedia/commons/4/4c/InVision_logo.svg',
+desc: 'تصميم واجهات.',
+tags: ['مجاني', 'مدفوع', 'تصميم', 'واجهات'],
+badge: 'new'
+},
+{
+name: 'Miro',
+url: 'https://miro.com',
+icon: 'https://cdn.simpleicons.org/miro',
+desc: 'لوحات تعاونية.',
+tags: ['مجاني', 'مدفوع', 'تعاون', 'لوحات'],
+badge: 'popular'
+},
+{
+name: 'Mural',
+url: 'https://mural.co',
+icon: 'https://upload.wikimedia.org/wikipedia/commons/4/4c/Mural_logo.svg',
+desc: 'لوحات تعاونية.',
+tags: ['مجاني', 'مدفوع', 'تعاون', 'لوحات'],
+badge: 'new'
+},
+{
+name: 'Lucidchart',
+url: 'https://lucidchart.com',
+icon: 'https://upload.wikimedia.org/wikipedia/commons/4/4c/Lucidchart_logo.svg',
+desc: 'رسوم بيانية.',
+tags: ['مجاني', 'مدفوع', 'رسوم', 'بيانية'],
+badge: 'new'
+},
+{
+name: 'Draw.io',
+url: 'https://draw.io',
+icon: 'https://upload.wikimedia.org/wikipedia/commons/4/4c/Drawio_logo.svg',
+desc: 'رسوم بيانية مجانية.',
+tags: ['مجاني', 'رسوم', 'بيانية'],
+badge: 'free'
+},
+{
+name: 'Canva',
+url: 'https://canva.com',
+icon: 'https://upload.wikimedia.org/wikipedia/commons/0/0c/Canva_logo.svg',
+desc: 'تصميم بسيط.',
+tags: ['مجاني', 'مدفوع', 'تصميم', 'بسيط'],
+badge: 'popular'
+},
+{
+name: 'Adobe Express',
+url: 'https://adobe.com/express',
+icon: 'https://cdn.simpleicons.org/adobe',
+desc: 'تصميم من Adobe.',
+tags: ['مجاني', 'مدفوع', 'تصميم', 'Adobe'],
+badge: 'new'
+},
+{
+name: 'VistaCreate',
+url: 'https://vistacreate.com',
+icon: 'https://upload.wikimedia.org/wikipedia/commons/4/4c/VistaCreate_logo.svg',
+desc: 'تصميم بسيط.',
+tags: ['مجاني', 'مدفوع', 'تصميم', 'بسيط'],
+badge: 'new'
+},
+{
+name: 'Crello',
+url: 'https://crello.com',
+icon: 'https://upload.wikimedia.org/wikipedia/commons/4/4c/Crello_logo.svg',
+desc: 'تصميم بسيط.',
+tags: ['مجاني', 'مدفوع', 'تصميم', 'بسيط'],
+badge: 'new'
+},
+{
+name: 'Snappa',
+url: 'https://snappa.com',
+icon: 'https://upload.wikimedia.org/wikipedia/commons/4/4c/Snappa_logo.svg',
+desc: 'تصميم بسيط.',
+tags: ['مجاني', 'مدفوع', 'تصميم', 'بسيط'],
+badge: 'new'
+},
+{
+name: 'DesignBold',
+url: 'https://designbold.com',
+icon: 'https://upload.wikimedia.org/wikipedia/commons/4/4c/DesignBold_logo.svg',
+desc: 'تصميم بسيط.',
+tags: ['مجاني', 'مدفوع', 'تصميم', 'بسيط'],
+badge: 'new'
+},
+{
+name: 'Stencil',
+url: 'https://stencil.com',
+icon: 'https://upload.wikimedia.org/wikipedia/commons/4/4c/Stencil_logo.svg',
+desc: 'تصميم بسيط.',
+tags: ['مدفوع', 'تصميم', 'بسيط'],
+badge: 'new'
+},
+{
+name: 'BeFunky',
+url: 'https://befunky.com',
+icon: 'https://upload.wikimedia.org/wikipedia/commons/4/4c/BeFunky_logo.svg',
+desc: 'تحرير صور بسيط.',
+tags: ['مجاني', 'مدفوع', 'صور', 'تحرير'],
+badge: 'new'
+},
+{
+name: 'Pixlr',
+url: 'https://pixlr.com',
+icon: 'https://upload.wikimedia.org/wikipedia/commons/4/4c/Pixlr_logo.svg',
+desc: 'تحرير صور مجاني.',
+tags: ['مجاني', 'صور', 'تحرير'],
+badge: 'free'
+},
+{
+name: 'Photopea',
+url: 'https://photopea.com',
+icon: 'https://upload.wikimedia.org/wikipedia/commons/4/4c/Photopea_logo.svg',
+desc: 'بديل Photoshop مجاني.',
+tags: ['مجاني', 'صور', 'Photoshop'],
+badge: 'free'
+},
+{
+name: 'GIMP',
+url: 'https://gimp.org',
+icon: 'https://upload.wikimedia.org/wikipedia/commons/4/4c/GIMP_logo.svg',
+desc: 'تحرير صور مفتوح المصدر.',
+tags: ['مجاني', 'صور', 'مفتوح المصدر'],
+badge: 'free'
+},
+{
+name: 'Krita',
+url: 'https://krita.org',
+icon: 'https://upload.wikimedia.org/wikipedia/commons/4/4c/Krita_logo.svg',
+desc: 'رسم وتلوين مفتوح المصدر.',
+tags: ['مجاني', 'رسم', 'مفتوح المصدر'],
+badge: 'free'
+},
+{
+name: 'Inkscape',
+url: 'https://inkscape.org',
+icon: 'https://upload.wikimedia.org/wikipedia/commons/4/4c/Inkscape_logo.svg',
+desc: 'رسوم متجهة مفتوح المصدر.',
+tags: ['مجاني', 'رسوم', 'مفتوح المصدر'],
+badge: 'free'
+},
+{
+name: 'Blender',
+url: 'https://blender.org',
+icon: 'https://upload.wikimedia.org/wikipedia/commons/4/4c/Blender_logo.svg',
+desc: 'نمذجة 3D مفتوح المصدر.',
+tags: ['مجاني', '3D', 'مفتوح المصدر'],
+badge: 'free'
+},
+{
+name: 'DaVinci Resolve',
+url: 'https://blackmagicdesign.com/products/davinciresolve',
+icon: 'https://upload.wikimedia.org/wikipedia/commons/4/4c/DaVinci_logo.svg',
+desc: 'تحرير فيديو احترافي مجاني.',
+tags: ['مجاني', 'فيديو', 'احترافي'],
+badge: 'free'
+},
+{
+name: 'Shotcut',
+url: 'https://shotcut.org',
+icon: 'https://upload.wikimedia.org/wikipedia/commons/4/4c/Shotcut_logo.svg',
+desc: 'تحرير فيديو مفتوح المصدر.',
+tags: ['مجاني', 'فيديو', 'مفتوح المصدر'],
+badge: 'free'
+},
+{
+name: 'OpenShot',
+url: 'https://openshot.org',
+icon: 'https://upload.wikimedia.org/wikipedia/commons/4/4c/OpenShot_logo.svg',
+desc: 'تحرير فيديو مفتوح المصدر.',
+tags: ['مجاني', 'فيديو', 'مفتوح المصدر'],
+badge: 'free'
+},
+{
+name: 'Kdenlive',
+url: 'https://kdenlive.org',
+icon: 'https://upload.wikimedia.org/wikipedia/commons/4/4c/Kdenlive_logo.svg',
+desc: 'تحرير فيديو مفتوح المصدر.',
+tags: ['مجاني', 'فيديو', 'مفتوح المصدر'],
+badge: 'free'
+},
+{
+name: 'OBS Studio',
+url: 'https://obsproject.com',
+icon: 'https://upload.wikimedia.org/wikipedia/commons/4/4c/OBS_logo.svg',
+desc: 'بث حي مفتوح المصدر.',
+tags: ['مجاني', 'بث', 'مفتوح المصدر'],
+badge: 'free'
+},
+{
+name: 'Streamlabs',
+url: 'https://streamlabs.com',
+icon: 'https://upload.wikimedia.org/wikipedia/commons/4/4c/Streamlabs_logo.svg',
+desc: 'بث حي احترافي.',
+tags: ['مجاني', 'مدفوع', 'بث', 'احترافي'],
+badge: 'new'
+},
+{
+name: 'Restream',
+url: 'https://restream.io',
+icon: 'https://upload.wikimedia.org/wikipedia/commons/4/4c/Restream_logo.svg',
+desc: 'بث متعدد.',
+tags: ['مجاني', 'مدفوع', 'بث', 'متعدد'],
+badge: 'new'
+},
+{
+name: 'Castr',
+url: 'https://castr.io',
+icon: 'https://upload.wikimedia.org/wikipedia/commons/4/4c/Castr_logo.svg',
+desc: 'بث متعدد.',
+tags: ['مجاني', 'مدفوع', 'بث', 'متعدد'],
+badge: 'new'
+},
+{
+name: 'Vimeo',
+url: 'https://vimeo.com',
+icon: 'https://upload.wikimedia.org/wikipedia/commons/4/4c/Vimeo_logo.svg',
+desc: 'استضافة فيديو احترافية.',
+tags: ['مجاني', 'مدفوع', 'فيديو', 'استضافة'],
+badge: 'popular'
+},
+{
+name: 'Wistia',
+url: 'https://wistia.com',
+icon: 'https://upload.wikimedia.org/wikipedia/commons/4/4c/Wistia_logo.svg',
+desc: 'استضافة فيديو للأعمال.',
+tags: ['مجاني', 'مدفوع', 'فيديو', 'أعمال'],
+badge: 'new'
+},
+{
+name: 'Vidyard',
+url: 'https://vidyard.com',
+icon: 'https://upload.wikimedia.org/wikipedia/commons/4/4c/Vidyard_logo.svg',
+desc: 'استضافة فيديو للمبيعات.',
+tags: ['مجاني', 'مدفوع', 'فيديو', 'مبيعات'],
+badge: 'new'
+},
+{
+name: 'Brightcove',
+url: 'https://brightcove.com',
+icon: 'https://upload.wikimedia.org/wikipedia/commons/4/4c/Brightcove_logo.svg',
+desc: 'استضافة فيديو احترافية.',
+tags: ['مدفوع', 'فيديو', 'احترافي'],
+badge: 'new'
+},
+{
+name: 'Kaltura',
+url: 'https://kaltura.com',
+icon: 'https://upload.wikimedia.org/wikipedia/commons/4/4c/Kaltura_logo.svg',
+desc: 'استضافة فيديو مفتوحة المصدر.',
+tags: ['مجاني', 'مدفوع', 'فيديو', 'مفتوح المصدر'],
+badge: 'new'
+},
+{
+name: 'JW Player',
+url: 'https://jwplayer.com',
+icon: 'https://upload.wikimedia.org/wikipedia/commons/4/4c/JW_logo.svg',
+desc: 'مشغل فيديو.',
+tags: ['مجاني', 'مدفوع', 'فيديو', 'مشغل'],
+badge: 'new'
+},
+{
+name: 'Video.js',
+url: 'https://videojs.com',
+icon: 'https://upload.wikimedia.org/wikipedia/commons/4/4c/Videojs_logo.svg',
+desc: 'مشغل فيديو مفتوح المصدر.',
+tags: ['مجاني', 'فيديو', 'مفتوح المصدر'],
+badge: 'free'
+},
+{
+name: 'Plyr',
+url: 'https://plyr.io',
+icon: 'https://upload.wikimedia.org/wikipedia/commons/4/4c/Plyr_logo.svg',
+desc: 'مشغل فيديو بسيط.',
+tags: ['مجاني', 'فيديو', 'بسيط'],
+badge: 'free'
+},
+{
+name: 'YouTube',
+url: 'https://youtube.com',
+icon: 'https://upload.wikimedia.org/wikipedia/commons/4/42/YouTube_2024.svg',
+desc: 'أكبر منصة فيديو في العالم.',
+tags: ['مجاني', 'فيديو', 'منصة'],
+badge: 'popular'
+},
+{
+name: 'TikTok',
+url: 'https://tiktok.com',
+icon: 'https://cdn.simpleicons.org/tiktok',
+desc: 'منصة فيديو قصير.',
+tags: ['مجاني', 'فيديو', 'قصير'],
+badge: 'popular'
+},
+{
+name: 'Instagram',
+url: 'https://instagram.com',
+icon: 'https://upload.wikimedia.org/wikipedia/commons/4/44/Instagram_logo.svg',
+desc: 'منصة صور وفيديو.',
+tags: ['مجاني', 'صور', 'فيديو'],
+badge: 'popular'
+},
+{
+name: 'Twitter/X',
+url: 'https://x.com',
+icon: 'https://upload.wikimedia.org/wikipedia/commons/9/9e/X_logo.svg',
+desc: 'منصة تواصل قصير.',
+tags: ['مجاني', 'تواصل', 'قصير'],
+badge: 'popular'
+},
+{
+name: 'Facebook',
+url: 'https://facebook.com',
+icon: 'https://upload.wikimedia.org/wikipedia/commons/5/55/2023_Facebook_icon.svg',
+desc: 'منصة تواصل اجتماعي.',
+tags: ['مجاني', 'تواصل', 'اجتماعي'],
+badge: 'popular'
+},
+{
+name: 'LinkedIn',
+url: 'https://linkedin.com',
+icon: 'https://upload.wikimedia.org/wikipedia/commons/1/19/LinkedIn_2021.svg',
+desc: 'منصة مهنية.',
+tags: ['مجاني', 'مهني', 'أعمال'],
+badge: 'popular'
+},
+{
+name: 'Reddit',
+url: 'https://reddit.com',
+icon: 'https://upload.wikimedia.org/wikipedia/commons/4/43/Reddit_logo.svg',
+desc: 'منصة مجتمعات.',
+tags: ['مجاني', 'مجتمعات', 'مناقشات'],
+badge: 'popular'
+},
+{
+name: 'Pinterest',
+url: 'https://pinterest.com',
+icon: 'https://upload.wikimedia.org/wikipedia/commons/4/48/Pinterest_Logo.svg',
+desc: 'منصة صور.',
+tags: ['مجاني', 'صور', 'إلهام'],
+badge: 'popular'
+},
+{
+name: 'Snapchat',
+url: 'https://snapchat.com',
+icon: 'https://cdn.simpleicons.org/snapchat',
+desc: 'منصة صور قصيرة.',
+tags: ['مجاني', 'صور', 'قصير'],
+badge: 'new'
+},
+{
+name: 'Telegram',
+url: 'https://telegram.org',
+icon: 'https://upload.wikimedia.org/wikipedia/commons/4/44/Telegram_2019_Logo.svg',
+desc: 'تطبيق تواصل.',
+tags: ['مجاني', 'تواصل', 'تطبيق'],
+badge: 'popular'
+},
+{
+name: 'WhatsApp',
+url: 'https://whatsapp.com',
+icon: 'https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg',
+desc: 'تطبيق تواصل.',
+tags: ['مجاني', 'تواصل', 'تطبيق'],
+badge: 'popular'
+},
+{
+name: 'Signal',
+url: 'https://signal.org',
+icon: 'https://cdn.simpleicons.org/signal',
+desc: 'تطبيق تواصل آمن.',
+tags: ['مجاني', 'تواصل', 'آمن'],
+badge: 'new'
+},
+{
+name: 'Threema',
+url: 'https://threema.ch',
+icon: 'https://cdn.simpleicons.org/threema',
+desc: 'تطبيق تواصل آمن.',
+tags: ['مجاني', 'مدفوع', 'تواصل', 'آمن'],
+badge: 'new'
+},
+{
+name: 'Wire',
+url: 'https://wire.com',
+icon: 'https://cdn.simpleicons.org/wire',
+desc: 'تطبيق تواصل آمن.',
+tags: ['مجاني', 'مدفوع', 'تواصل', 'آمن'],
+badge: 'new'
+},
+{
+name: 'Session',
+url: 'https://getsession.org',
+icon: 'https://upload.wikimedia.org/wikipedia/commons/4/4c/Session_logo.svg',
+desc: 'تطبيق تواصل آمن.',
+tags: ['مجاني', 'تواصل', 'آمن'],
+badge: 'new'
+},
+{
+name: 'Element',
+url: 'https://element.io',
+icon: 'https://cdn.simpleicons.org/element',
+desc: 'تطبيق تواصل مفتوح المصدر.',
+tags: ['مجاني', 'تواصل', 'مفتوح المصدر'],
+badge: 'new'
+},
+{
+name: 'Matrix',
+url: 'https://matrix.org',
+icon: 'https://cdn.simpleicons.org/matrix',
+desc: 'بروتوكول تواصل مفتوح.',
+tags: ['مجاني', 'تواصل', 'مفتوح'],
+badge: 'new'
+},
+{
+name: 'Mastodon',
+url: 'https://joinmastodon.org',
+icon: 'https://cdn.simpleicons.org/mastodon',
+desc: 'شبكة تواصل مفتوحة.',
+tags: ['مجاني', 'تواصل', 'مفتوح'],
+badge: 'new'
+},
+{
+name: 'Lemmy',
+url: 'https://join-lemmy.org',
+icon: 'https://cdn.simpleicons.org/lemmy',
+desc: 'بديل Reddit مفتوح.',
+tags: ['مجاني', 'مجتمعات', 'مفتوح'],
+badge: 'new'
+},
+{
+name: 'Pixelfed',
+url: 'https://pixelfed.org',
+icon: 'https://cdn.simpleicons.org/pixelfed',
+desc: 'بديل Instagram مفتوح.',
+tags: ['مجاني', 'صور', 'مفتوح'],
+badge: 'new'
+},
+{
+name: 'Peertube',
+url: 'https://joinpeertube.org',
+icon: 'https://cdn.simpleicons.org/peertube',
+desc: 'بديل YouTube مفتوح.',
+tags: ['مجاني', 'فيديو', 'مفتوح'],
+badge: 'new'
+},
+{
+name: 'LBRY',
+url: 'https://lbry.com',
+icon: 'https://cdn.simpleicons.org/lbry',
+desc: 'منصة محتوى مفتوحة.',
+tags: ['مجاني', 'محتوى', 'مفتوح'],
+badge: 'new'
+},
+{
+name: 'Odysee',
+url: 'https://odysee.com',
+icon: 'https://cdn.simpleicons.org/odysee',
+desc: 'منصة محتوى مفتوحة.',
+tags: ['مجاني', 'محتوى', 'مفتوح'],
+badge: 'new'
+},
+{
+name: 'Rumble',
+url: 'https://rumble.com',
+icon: 'https://cdn.simpleicons.org/rumble',
+desc: 'منصة فيديو بديلة.',
+tags: ['مجاني', 'فيديو', 'بديل'],
+badge: 'new'
+},
+{
+name: 'BitChute',
+url: 'https://bitchute.com',
+icon: 'https://cdn.simpleicons.org/bitchute',
+desc: 'منصة فيديو بديلة.',
+tags: ['مجاني', 'فيديو', 'بديل'],
+badge: 'new'
+},
+{
+name: 'D.Tube',
+url: 'https://d.tube',
+icon: 'https://cdn.simpleicons.org/dtube',
+desc: 'منصة فيديو على Blockchain.',
+tags: ['مجاني', 'فيديو', 'Blockchain'],
+badge: 'new'
+},
+{
+name: '3Speak',
+url: 'https://3speak.tv',
+icon: 'https://cdn.simpleicons.org/threespeak',
+desc: 'منصة فيديو على Blockchain.',
+tags: ['مجاني', 'فيديو', 'Blockchain'],
+badge: 'new'
+},
+{
+name: 'Hive',
+url: 'https://hive.io',
+icon: 'https://cdn.simpleicons.org/hive',
+desc: 'شبكة اجتماعية على Blockchain.',
+tags: ['مجاني', 'اجتماعي', 'Blockchain'],
+badge: 'new'
+},
+{
+name: 'Steemit',
+url: 'https://steemit.com',
+icon: 'https://cdn.simpleicons.org/steemit',
+desc: 'شبكة اجتماعية على Blockchain.',
+tags: ['مجاني', 'اجتماعي', 'Blockchain'],
+badge: 'new'
+},
+{
+name: 'Bluesky',
+url: 'https://bsky.app',
+icon: 'https://cdn.simpleicons.org/bluesky',
+desc: 'شبكة تواصل جديدة.',
+tags: ['مجاني', 'تواصل', 'جديد'],
+badge: 'new'
+},
+{
+name: 'Threads',
+url: 'https://threads.net',
+icon: 'https://cdn.simpleicons.org/threads',
+desc: 'منصة تواصل من Meta.',
+tags: ['مجاني', 'تواصل', 'Meta'],
+badge: 'new'
+},
+{
+name: 'Truth Social',
+url: 'https://truthsocial.com',
+icon: 'https://cdn.simpleicons.org/truthsocial',
+desc: 'منصة تواصل بديلة.',
+tags: ['مجاني', 'تواصل', 'بديل'],
+badge: 'new'
+},
+{
+name: 'Parler',
+url: 'https://parler.com',
+icon: 'https://cdn.simpleicons.org/parler',
+desc: 'منصة تواصل بديلة.',
+tags: ['مجاني', 'تواصل', 'بديل'],
+badge: 'new'
+},
+{
+name: 'Gab',
+url: 'https://gab.com',
+icon: 'https://cdn.simpleicons.org/gab',
+desc: 'منصة تواصل بديلة.',
+tags: ['مجاني', 'تواصل', 'بديل'],
+badge: 'new'
+},
+{
+name: 'Gettr',
+url: 'https://gettr.com',
+icon: 'https://cdn.simpleicons.org/gettr',
+desc: 'منصة تواصل بديلة.',
+tags: ['مجاني', 'تواصل', 'بديل'],
+badge: 'new'
+},
+{
+name: 'Rumble',
+url: 'https://rumble.com',
+icon: 'https://cdn.simpleicons.org/rumble',
+desc: 'منصة فيديو بديلة.',
+tags: ['مجاني', 'فيديو', 'بديل'],
+badge: 'new'
+}
+];
+
+let currentCategory = 'all';
+
+function renderCards(){
+const grid = document.getElementById('cardsGrid');
+const filtered = currentCategory === 'all' 
+    ? platforms 
+    : platforms.filter(p => {
+        const tagText = p.tags.join(' ').toLowerCase();
+        const descText = p.desc.toLowerCase();
+        return tagText.includes(currentCategory) || descText.includes(currentCategory);
+    });
+grid.innerHTML = filtered.map(p => `
+<a href="${p.url}" target="_blank" class="card" data-name="${p.name.toLowerCase()}">
+<div class="card-icon">
+<img src="${p.icon}" alt="${p.name}" onerror="this.parentElement.style.display='none'">
+</div>
+<div class="card-info">
+<h3>${p.name}</h3>
+<span class="url">${p.url}</span>
+<div class="card-desc">${p.desc}</div>
+<div class="card-tags">
+${p.tags.slice(0,3).map(t => `<span class="tag">${t}</span>`).join('')}
+</div>
+</div>
+</a>
+`).join('');
+}
+
+function filterByCategory(category){
+currentCategory = category;
+document.querySelectorAll('.category-btn').forEach(btn => btn.classList.remove('active'));
+event.target.classList.add('active');
+renderCards();
+}
+
+
+
+function filterCards(){
+const query = document.getElementById('searchInput').value.toLowerCase();
+const cards = document.querySelectorAll('.card');
+let hasResults = false;
+cards.forEach(card => {
+const name = card.dataset.name;
+const desc = card.querySelector('.card-desc').textContent.toLowerCase();
+const tags = card.querySelector('.card-tags').textContent.toLowerCase();
+const match = name.includes(query) || desc.includes(query) || tags.includes(query);
+card.classList.toggle('hidden', !match);
+if(match) hasResults = true;
+});
+const grid = document.getElementById('cardsGrid');
+if(!hasResults){
+grid.innerHTML = '<div class="empty">لا توجد نتائج</div>';
+} else if(!grid.querySelector('.card')){
+renderCards();
+filterCards();
+}
+}
+
+renderCards();
+</script>
+</body>
+</html>
